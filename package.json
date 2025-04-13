@@ -8,11 +8,12 @@
     "dev": "yarn vite",
     "format": "yarn prettier --write \"**/*.{js,json,jsx,ts,tsx}\"",
     "format-assert": "yarn prettier --check \"**/*.{js,json,jsx,ts,tsx}\"",
-    "type-check": "yarn tsc -noEmit",
     "lint": "yarn eslint .",
     "preview": "yarn vite preview",
-    "validate": "yarn format-assert && yarn lint && yarn type-check",
-    "test": "yarn jest"
+    "start": "npx serve dist",
+    "test": "yarn jest",
+    "type-check": "yarn tsc -noEmit",
+    "validate": "yarn format-assert && yarn lint && yarn type-check"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -20,6 +21,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/react-beautiful-dnd": "^13.1.8",
+    "http-server": "^14.1.1",
     "react": "^19.1.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.1.0"
