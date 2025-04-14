@@ -123,7 +123,7 @@ function SortableTodoItem({
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: 1,
-    boxShadow: isDragging ? '0 0 10px rgba(192, 192, 192, 0.7)' : 'none',
+    boxShadow: isDragging ? "0 0 10px rgba(192, 192, 192, 0.7)" : "none",
     zIndex: isDragging ? 100 : 1,
   }
 
