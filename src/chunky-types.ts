@@ -2,6 +2,7 @@ export interface Todo {
   id: number
   text: string
   completed: boolean
+  isSelected: boolean
 }
 
 export type TodoAction =
@@ -15,12 +16,11 @@ export type TodoAction =
 
 export interface ActiveTodosProps {
   todos: Todo[]
-  selectedIds: number[]
   onToggle: (id: number) => void
   onDelete: (id: number) => void
   onEditSubmit: (id: number, text: string) => void
   onReorder: (ids: number[]) => void
-  onStarSelect: (id: number | null) => void
+  onStarSelect: (id: number) => void
 }
 
 export interface CompletedTodosProps {

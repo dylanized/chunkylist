@@ -13,8 +13,7 @@ const TITLE_KEY = "chunkylist-title"
 
 // Define the main App component
 function App(): JSX.Element {
-  // Create reactive props for selected items
-  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  // Remove selectedIds state as we'll use isSelected property on todo items
   const [showCompleted, setShowCompleted] = useState(false)
   const [title, setTitle] = useState<string>(() => {
     const saved = localStorage.getItem(TITLE_KEY)
@@ -24,13 +23,39 @@ function App(): JSX.Element {
   // Create reactive props for active todos, optionally using data from localstorage
   const [activeTodos, setActiveTodos] = useState<Todo[]>(() => {
     const saved = localStorage.getItem(ACTIVE_TODOS_KEY)
-    return saved ? JSON.parse(saved) : []
+    // Add isSelected: false to each todo when loading from localStorage
+    return saved
+      ? JSON.parse(saved).map(
+          (todo: {
+            id: number
+            text: string
+            completed: boolean
+            isSelected?: boolean
+          }) => ({
+            ...todo,
+            isSelected: todo.isSelected || false,
+          }),
+        )
+      : []
   })
 
   // Create reactive props for completed todos, optionally using data from localstorage
   const [completedTodos, setCompletedTodos] = useState<Todo[]>(() => {
     const saved = localStorage.getItem(COMPLETED_TODOS_KEY)
-    return saved ? JSON.parse(saved) : []
+    // Add isSelected: false to each todo when loading from localStorage
+    return saved
+      ? JSON.parse(saved).map(
+          (todo: {
+            id: number
+            text: string
+            completed: boolean
+            isSelected?: boolean
+          }) => ({
+            ...todo,
+            isSelected: todo.isSelected || false,
+          }),
+        )
+      : []
   })
   const [newTodo, setNewTodo] = useState("")
 
@@ -46,7 +71,7 @@ function App(): JSX.Element {
 
     const newTodos = [
       ...activeTodos,
-      { id: Date.now(), text: newTodo, completed: false },
+      { id: Date.now(), text: newTodo, completed: false, isSelected: false },
     ]
     setActiveTodos(newTodos)
     setNewTodo("")
@@ -84,6 +109,16 @@ function App(): JSX.Element {
     )
   }
 
+  // Function to toggle selection state on a todo item
+  const toggleSelection = (id: number): void => {
+    // Toggle selection for the specific todo
+    setActiveTodos(
+      activeTodos.map((todo) =>
+        todo.id === id ? { ...todo, isSelected: !todo.isSelected } : todo,
+      ),
+    )
+  }
+
   return (
     <div className="container">
       <h1>
@@ -101,7 +136,6 @@ function App(): JSX.Element {
 
       <ActiveTodos
         todos={activeTodos}
-        selectedIds={selectedIds}
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
@@ -112,18 +146,7 @@ function App(): JSX.Element {
               .filter(Boolean)
           })
         }}
-        onStarSelect={(id: number | null) => {
-          if (id === null) {
-            setSelectedIds([])
-            return
-          }
-          setSelectedIds((prev) => {
-            if (prev.includes(id)) {
-              return prev.filter((selectedId) => selectedId !== id)
-            }
-            return [...prev, id]
-          })
-        }}
+        onStarSelect={toggleSelection}
       />
 
       <div className="add-todo">

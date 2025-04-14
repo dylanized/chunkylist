@@ -24,7 +24,6 @@ import { CSS } from "@dnd-kit/utilities"
 
 interface SortableTodoItemProps {
   todo: Todo
-  selectedIds: number[]
   onToggle: (id: number) => void
   onDelete: (id: number) => void
   editingTodo: number | null
@@ -32,12 +31,11 @@ interface SortableTodoItemProps {
   setEditText: React.Dispatch<React.SetStateAction<string>>
   handleEdit: (id: number) => void
   handleEditSubmit: (id: number) => void
-  onStarSelect: (id: number | null) => void
+  onStarSelect: (id: number) => void
 }
 
 export function ActiveTodos({
   todos,
-  selectedIds,
   onToggle,
   onDelete,
   onEditSubmit,
@@ -85,7 +83,6 @@ export function ActiveTodos({
             <SortableTodoItem
               key={todo.id}
               todo={todo}
-              selectedIds={selectedIds}
               onToggle={onToggle}
               onDelete={onDelete}
               editingTodo={editingTodo}
@@ -104,7 +101,6 @@ export function ActiveTodos({
 
 function SortableTodoItem({
   todo,
-  selectedIds,
   onToggle,
   onDelete,
   editingTodo,
@@ -133,7 +129,7 @@ function SortableTodoItem({
     <li
       ref={setNodeRef}
       style={style}
-      className={`${todo.completed ? "completed" : ""} ${selectedIds.includes(todo.id) ? "selected" : ""}`}
+      className={`${todo.completed ? "completed" : ""} ${todo.isSelected ? "selected" : ""}`}
       role="listitem"
     >
       <div
@@ -170,18 +166,12 @@ function SortableTodoItem({
             <button
               className="star-btn"
               onClick={() => {
-                if (selectedIds.includes(todo.id)) {
-                  onStarSelect(null)
-                } else {
-                  onStarSelect(todo.id)
-                }
+                onStarSelect(todo.id)
               }}
               title="Select todo"
             >
               <FontAwesomeIcon
-                icon={
-                  selectedIds.includes(todo.id) ? faStarSolid : faStarRegular
-                }
+                icon={todo.isSelected ? faStarSolid : faStarRegular}
               />
             </button>
             <button
@@ -197,18 +187,12 @@ function SortableTodoItem({
             <button
               className="star-btn"
               onClick={() => {
-                if (selectedIds.includes(todo.id)) {
-                  onStarSelect(null)
-                } else {
-                  onStarSelect(todo.id)
-                }
+                onStarSelect(todo.id)
               }}
               title="Select todo"
             >
               <FontAwesomeIcon
-                icon={
-                  selectedIds.includes(todo.id) ? faStarSolid : faStarRegular
-                }
+                icon={todo.isSelected ? faStarSolid : faStarRegular}
               />
             </button>
             <button
