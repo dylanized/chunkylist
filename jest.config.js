@@ -19,4 +19,5 @@ export default {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   testMatch: ["**/*.test.tsx"],
   testPathIgnorePatterns: ["/node_modules/"],
+  verbose: true,
 }

@@ -124,7 +124,7 @@ function SortableTodoItem({
     transition,
     opacity: 1,
     boxShadow: isDragging ? "0 0 10px rgba(192, 192, 192, 0.7)" : "none",
-    zIndex: isDragging ? 100 : 1,
+    zIndex: isDragging ? 1000 : 1,
   }
 
   return (
