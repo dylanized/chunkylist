@@ -381,6 +381,10 @@ h1 .title-icon {
 
 .todo-list li.selected .star-btn {
   color: #F0C14B;
+  opacity: 0;
+}
+
+.todo-list li.selected:hover .star-btn {
   opacity: 1;
 }
 
