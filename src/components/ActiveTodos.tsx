@@ -168,12 +168,32 @@ function SortableTodoItem({
         {editingTodo === todo.id ? (
           <div className="edit-star-container">
             <button
+              className="star-btn"
+              onClick={() => {
+                if (selectedIds.includes(todo.id)) {
+                  onStarSelect(null)
+                } else {
+                  onStarSelect(todo.id)
+                }
+              }}
+              title="Select todo"
+            >
+              <FontAwesomeIcon
+                icon={
+                  selectedIds.includes(todo.id) ? faStarSolid : faStarRegular
+                }
+              />
+            </button>
+            <button
               className="edit-btn"
               onClick={() => handleEditSubmit(todo.id)}
               title="Save changes"
             >
               <FontAwesomeIcon icon={faFloppyDisk} />
             </button>
+          </div>
+        ) : (
+          <div className="edit-star-container">
             <button
               className="star-btn"
               onClick={() => {
@@ -191,32 +211,12 @@ function SortableTodoItem({
                 }
               />
             </button>
-          </div>
-        ) : (
-          <div className="edit-star-container">
             <button
               className="edit-btn"
               onClick={() => handleEdit(todo.id)}
               title="Edit todo"
             >
               <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-            <button
-              className="star-btn"
-              onClick={() => {
-                if (selectedIds.includes(todo.id)) {
-                  onStarSelect(null)
-                } else {
-                  onStarSelect(todo.id)
-                }
-              }}
-              title="Select todo"
-            >
-              <FontAwesomeIcon
-                icon={
-                  selectedIds.includes(todo.id) ? faStarSolid : faStarRegular
-                }
-              />
             </button>
           </div>
         )}
