@@ -20,6 +20,7 @@ export interface ActiveTodosProps {
   onToggle: (id: number) => void
   onDelete: (id: number) => void
   onEditSubmit: (id: number, text: string) => void
+  onReorder: (ids: number[]) => void
 }
 
 export interface CompletedTodosProps {

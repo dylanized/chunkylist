@@ -106,6 +106,14 @@ function App(): JSX.Element {
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
+        onReorder={(ids: number[]) => {
+          setActiveTodos((prev) => {
+            // reorder prev according to ids
+            return ids
+              .map((id) => prev.find((todo) => todo.id === id)!)
+              .filter(Boolean)
+          })
+        }}
       />
 
       <div className="add-todo">
