@@ -138,7 +138,6 @@ function SortableTodoItem({
       ref={setNodeRef}
       style={style}
       className={`${todo.completed ? "completed" : ""} ${selectedId === todo.id ? "selected" : ""}`}
-      onClick={() => onSelect(selectedId === todo.id ? null : todo.id)}
       role="listitem"
     >
       <div
