@@ -364,11 +364,11 @@ h1 .title-icon {
 }
 
 .star-btn:hover {
-  color: #4CAF50;
+  color: #F0C14B;
 }
 
 .star-btn:active {
-  color: #388E3C;
+  color: #DAA520;
 }
 
 .todo-list li:hover .star-btn {
@@ -379,16 +379,21 @@ h1 .title-icon {
   font-size: 0.9em;
 }
 
+.todo-list li.selected .star-btn {
+  color: #F0C14B;
+  opacity: 1;
+}
+
 .todo-list li.editing .star-btn {
   opacity: 1;
 }
 
 .todo-list li.editing .star-btn:hover {
-  color: #4CAF50;
+  color: #F0C14B;
 }
 
 .todo-list li.editing .star-btn:active {
-  color: #388E3C;
+  color: #DAA520;
 }
 
 .actions {
