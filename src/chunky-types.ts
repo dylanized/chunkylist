@@ -15,8 +15,7 @@ export type TodoAction =
 
 export interface ActiveTodosProps {
   todos: Todo[]
-  selectedId: number | null
-  onSelect: (id: number | null) => void
+  selectedIds: number[]
   onToggle: (id: number) => void
   onDelete: (id: number) => void
   onEditSubmit: (id: number, text: string) => void

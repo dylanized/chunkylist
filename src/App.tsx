@@ -13,8 +13,8 @@ const TITLE_KEY = "chunkylist-title"
 
 // Define the main App component
 function App(): JSX.Element {
-  // Create reactive props for selected item
-  const [selectedId, setSelectedId] = useState<number | null>(null)
+  // Create reactive props for selected items
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [showCompleted, setShowCompleted] = useState(false)
   const [title, setTitle] = useState<string>(() => {
     const saved = localStorage.getItem(TITLE_KEY)
@@ -101,20 +101,29 @@ function App(): JSX.Element {
 
       <ActiveTodos
         todos={activeTodos}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
+        selectedIds={selectedIds}
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
         onReorder={(ids: number[]) => {
           setActiveTodos((prev) => {
-            // reorder prev according to ids
             return ids
               .map((id) => prev.find((todo) => todo.id === id)!)
               .filter(Boolean)
           })
         }}
-        onStarSelect={setSelectedId}
+        onStarSelect={(id: number | null) => {
+          if (id === null) {
+            setSelectedIds([])
+            return
+          }
+          setSelectedIds((prev) => {
+            if (prev.includes(id)) {
+              return prev.filter((selectedId) => selectedId !== id)
+            }
+            return [...prev, id]
+          })
+        }}
       />
 
       <div className="add-todo">
