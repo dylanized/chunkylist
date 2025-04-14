@@ -114,6 +114,7 @@ function App(): JSX.Element {
               .filter(Boolean)
           })
         }}
+        onStarSelect={setSelectedId}
       />
 
       <div className="add-todo">

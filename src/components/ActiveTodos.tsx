@@ -1,11 +1,16 @@
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircle, faCircleCheck } from "@fortawesome/free-regular-svg-icons"
+import {
+  faCircle,
+  faCircleCheck,
+  faStar as faStarRegular,
+} from "@fortawesome/free-regular-svg-icons"
 import {
   faTrash,
   faPenToSquare,
   faFloppyDisk,
   faGripVertical,
+  faStar as faStarSolid,
 } from "@fortawesome/free-solid-svg-icons"
 import { ActiveTodosProps, Todo } from "../chunky-types"
 import { DndContext, closestCenter } from "@dnd-kit/core"
@@ -28,6 +33,7 @@ interface SortableTodoItemProps {
   setEditText: React.Dispatch<React.SetStateAction<string>>
   handleEdit: (id: number) => void
   handleEditSubmit: (id: number) => void
+  onStarSelect: (id: number | null) => void
 }
 
 export function ActiveTodos({
@@ -38,6 +44,7 @@ export function ActiveTodos({
   onDelete,
   onEditSubmit,
   onReorder,
+  onStarSelect,
 }: ActiveTodosProps) {
   const [editingTodo, setEditingTodo] = useState<number | null>(null)
   const [editText, setEditText] = useState<string>("")
@@ -89,6 +96,7 @@ export function ActiveTodos({
               setEditText={setEditText}
               handleEdit={handleEdit}
               handleEditSubmit={handleEditSubmit}
+              onStarSelect={onStarSelect}
             />
           ))}
         </ul>
@@ -108,6 +116,7 @@ function SortableTodoItem({
   setEditText,
   handleEdit,
   handleEditSubmit,
+  onStarSelect,
 }: SortableTodoItemProps) {
   const {
     attributes,
@@ -162,21 +171,47 @@ function SortableTodoItem({
       </div>
       <div className="item-actions">
         {editingTodo === todo.id ? (
-          <button
-            className="edit-btn"
-            onClick={() => handleEditSubmit(todo.id)}
-            title="Save changes"
-          >
-            <FontAwesomeIcon icon={faFloppyDisk} />
-          </button>
+          <div className="edit-star-container">
+            <button
+              className="edit-btn"
+              onClick={() => handleEditSubmit(todo.id)}
+              title="Save changes"
+            >
+              <FontAwesomeIcon icon={faFloppyDisk} />
+            </button>
+            <button
+              className="star-btn"
+              onClick={() =>
+                onStarSelect(selectedId === todo.id ? null : todo.id)
+              }
+              title="Select todo"
+            >
+              <FontAwesomeIcon
+                icon={selectedId === todo.id ? faStarSolid : faStarRegular}
+              />
+            </button>
+          </div>
         ) : (
-          <button
-            className="edit-btn"
-            onClick={() => handleEdit(todo.id)}
-            title="Edit todo"
-          >
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </button>
+          <div className="edit-star-container">
+            <button
+              className="edit-btn"
+              onClick={() => handleEdit(todo.id)}
+              title="Edit todo"
+            >
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </button>
+            <button
+              className="star-btn"
+              onClick={() =>
+                onStarSelect(selectedId === todo.id ? null : todo.id)
+              }
+              title="Select todo"
+            >
+              <FontAwesomeIcon
+                icon={selectedId === todo.id ? faStarSolid : faStarRegular}
+              />
+            </button>
+          </div>
         )}
         <button
           className="delete-btn"

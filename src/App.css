@@ -330,6 +330,54 @@ h1 .title-icon {
   color: #cc0000;
 }
 
+.edit-star-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.star-btn {
+  padding: 4px 8px;
+  background-color: transparent;
+  color: #999;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.star-btn:focus {
+  outline: none;
+}
+
+.star-btn:hover {
+  color: #4CAF50;
+}
+
+.star-btn:active {
+  color: #388E3C;
+}
+
+.todo-list li:hover .star-btn {
+  opacity: 1;
+}
+
+.todo-list li .star-btn {
+  font-size: 0.9em;
+}
+
+.todo-list li.editing .star-btn {
+  opacity: 1;
+}
+
+.todo-list li.editing .star-btn:hover {
+  color: #4CAF50;
+}
+
+.todo-list li.editing .star-btn:active {
+  color: #388E3C;
+}
+
 .actions {
   text-align: center;
   margin-top: 20px;

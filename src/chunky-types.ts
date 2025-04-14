@@ -21,6 +21,7 @@ export interface ActiveTodosProps {
   onDelete: (id: number) => void
   onEditSubmit: (id: number, text: string) => void
   onReorder: (ids: number[]) => void
+  onStarSelect: (id: number | null) => void
 }
 
 export interface CompletedTodosProps {
