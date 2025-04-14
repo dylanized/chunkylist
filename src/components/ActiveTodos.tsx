@@ -7,7 +7,7 @@ import {
   faFloppyDisk,
   faGripVertical,
 } from "@fortawesome/free-solid-svg-icons"
-import { ActiveTodosProps } from "../chunky-types"
+import { ActiveTodosProps, Todo } from "../chunky-types"
 import { DndContext, closestCenter } from "@dnd-kit/core"
 import {
   SortableContext,
@@ -16,6 +16,19 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+
+interface SortableTodoItemProps {
+  todo: Todo
+  selectedId: number | null
+  onSelect: (id: number | null) => void
+  onToggle: (id: number) => void
+  onDelete: (id: number) => void
+  editingTodo: number | null
+  editText: string
+  setEditText: React.Dispatch<React.SetStateAction<string>>
+  handleEdit: (id: number) => void
+  handleEditSubmit: (id: number) => void
+}
 
 export function ActiveTodos({
   todos,
@@ -71,9 +84,7 @@ export function ActiveTodos({
               onSelect={onSelect}
               onToggle={onToggle}
               onDelete={onDelete}
-              onEditSubmit={onEditSubmit}
               editingTodo={editingTodo}
-              setEditingTodo={setEditingTodo}
               editText={editText}
               setEditText={setEditText}
               handleEdit={handleEdit}
@@ -92,14 +103,12 @@ function SortableTodoItem({
   onSelect,
   onToggle,
   onDelete,
-  onEditSubmit,
   editingTodo,
-  setEditingTodo,
   editText,
   setEditText,
   handleEdit,
   handleEditSubmit,
-}: any) {
+}: SortableTodoItemProps) {
   const {
     attributes,
     listeners,
@@ -178,7 +187,6 @@ function SortableTodoItem({
         </button>
         <span
           className="drag-handle"
-          role="button"
           aria-label="Drag to reorder"
           {...attributes}
           {...listeners}
