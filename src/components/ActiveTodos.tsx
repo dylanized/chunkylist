@@ -122,14 +122,16 @@ function SortableTodoItem({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: 1,
+    boxShadow: isDragging ? '0 0 10px rgba(192, 192, 192, 0.7)' : 'none',
+    zIndex: isDragging ? 2000 : 'auto',
   }
 
   return (
     <li
       ref={setNodeRef}
       style={style}
-      className={`${todo.completed ? "completed" : ""} ${todo.isSelected ? "selected" : ""}`}
+      className={`${todo.completed ? "completed" : ""} ${todo.isSelected ? "selected" : ""} ${isDragging ? "dragging" : ""}`}
       role="listitem"
     >
       <div
