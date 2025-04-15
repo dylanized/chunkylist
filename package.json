@@ -1,7 +1,7 @@
 {
   "name": "chunky-list",
   "engines": {
-    "node": ">=21"
+    "node": ">=20"
   },
   "private": true,
   "version": "0.0.0",
