@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent, KeyboardEvent } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faSquareCheck } from "@fortawesome/free-solid-svg-icons"
 import { ActiveTodos } from "./components/ActiveTodos"
-import { ArchivedTodos } from "./components/ArchivedTodos"
+import { CompletedTodos } from "./components/CompletedTodos"
 import { Todo } from "./chunky-types"
 import "./App.css"
 
@@ -172,7 +172,7 @@ function App(): JSX.Element {
       </div>
 
       {showCompletedArr && archivedTodosArr.length > 0 && (
-        <ArchivedTodos todos={archivedTodosArr} />
+        <CompletedTodos todos={archivedTodosArr} />
       )}
     </div>
   )
