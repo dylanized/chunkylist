@@ -8,113 +8,91 @@ import "./App.css"
 
 // Define constants for localstorage keys
 const ACTIVE_TODOS_KEY = "chunkylist-todos"
-const COMPLETED_TODOS_KEY = "chunkylist-completed"
+const ARCHIVED_TODOS_KEY = "chunkylist-completed"
 const TITLE_KEY = "chunkylist-title"
 
 // Define the main App component
 function App(): JSX.Element {
   // Remove selectedIds state as we'll use isSelected property on todo items
-  const [showCompleted, setShowCompleted] = useState(false)
-  const [title, setTitle] = useState<string>(() => {
-    const saved = localStorage.getItem(TITLE_KEY)
-    return saved || "ChunkyList"
+  const [showCompletedArr, setShowCompletedArr] = useState(false)
+  const [titleStr, setTitleStr] = useState<string>(() => {
+    const savedStr = localStorage.getItem(TITLE_KEY)
+    return savedStr || "ChunkyList"
   })
 
   // Create reactive props for active todos, optionally using data from localstorage
-  const [activeTodos, setActiveTodos] = useState<Todo[]>(() => {
-    const saved = localStorage.getItem(ACTIVE_TODOS_KEY)
+  const [activeTodosArr, setActiveTodosArr] = useState<Todo[]>(() => {
+    const savedStr = localStorage.getItem(ACTIVE_TODOS_KEY)
     // Add isSelected: false to each todo when loading from localStorage
-    return saved
-      ? JSON.parse(saved).map(
-          (todo: {
-            id: number
-            text: string
-            completed: boolean
-            isSelected?: boolean
-          }) => ({
-            ...todo,
-            isSelected: todo.isSelected || false,
-          }),
-        )
-      : []
+    return savedStr ? JSON.parse(savedStr) : []
   })
 
   // Create reactive props for completed todos, optionally using data from localstorage
-  const [completedTodos, setCompletedTodos] = useState<Todo[]>(() => {
-    const saved = localStorage.getItem(COMPLETED_TODOS_KEY)
+  const [archivedTodosArr, setArchivedTodosArr] = useState<Todo[]>(() => {
+    const savedStr = localStorage.getItem(ARCHIVED_TODOS_KEY)
     // Add isSelected: false to each todo when loading from localStorage
-    return saved
-      ? JSON.parse(saved).map(
-          (todo: {
-            id: number
-            text: string
-            completed: boolean
-            isSelected?: boolean
-          }) => ({
-            ...todo,
-            isSelected: todo.isSelected || false,
-          }),
-        )
-      : []
+    return savedStr ? JSON.parse(savedStr) : []
   })
   const [newTodo, setNewTodo] = useState("")
 
   // When any values change, save them all to localstorage
   useEffect(() => {
-    localStorage.setItem(TITLE_KEY, title)
-    localStorage.setItem(ACTIVE_TODOS_KEY, JSON.stringify(activeTodos))
-    localStorage.setItem(COMPLETED_TODOS_KEY, JSON.stringify(completedTodos))
-  }, [title, activeTodos, completedTodos])
+    localStorage.setItem(TITLE_KEY, titleStr)
+    localStorage.setItem(ACTIVE_TODOS_KEY, JSON.stringify(activeTodosArr))
+    localStorage.setItem(ARCHIVED_TODOS_KEY, JSON.stringify(archivedTodosArr))
+  }, [titleStr, activeTodosArr, archivedTodosArr])
 
   const addTodo = (): void => {
     if (newTodo.trim() === "") return
 
-    const newTodos = [
-      ...activeTodos,
+    const newTodosArr = [
+      ...activeTodosArr,
       { id: Date.now(), text: newTodo, completed: false, isSelected: false },
     ]
-    setActiveTodos(newTodos)
+    setActiveTodosArr(newTodosArr)
     setNewTodo("")
   }
 
-  const deleteTodo = (id: number): void => {
-    const newTodos = activeTodos.filter((todo) => todo.id !== id)
-    setActiveTodos(newTodos)
+  const deleteTodo = (idInt: number): void => {
+    const newTodosArr = activeTodosArr.filter((todo) => todo.id !== idInt)
+    setActiveTodosArr(newTodosArr)
   }
 
-  const toggleTodo = (id: number): void => {
-    setActiveTodos(
-      activeTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+  const toggleTodo = (idInt: number): void => {
+    setActiveTodosArr(
+      activeTodosArr.map((todo) =>
+        todo.id === idInt ? { ...todo, completed: !todo.completed } : todo,
       ),
     )
   }
 
   const clearAll = (): void => {
-    setActiveTodos([])
-    setCompletedTodos([])
+    setActiveTodosArr([])
+    setArchivedTodosArr([])
   }
 
   const archiveDone = (): void => {
-    const completedItems = activeTodos.filter((todo) => todo.completed)
-    const activeItems = activeTodos.filter((todo) => !todo.completed)
+    const completedItemsArr = activeTodosArr.filter((todo) => todo.completed)
+    const activeItemsArr = activeTodosArr.filter((todo) => !todo.completed)
 
-    setCompletedTodos([...completedTodos, ...completedItems])
-    setActiveTodos(activeItems)
+    setArchivedTodosArr([...archivedTodosArr, ...completedItemsArr])
+    setActiveTodosArr(activeItemsArr)
   }
 
-  const handleEditSubmit = (id: number, text: string): void => {
-    setActiveTodos(
-      activeTodos.map((todo) => (todo.id === id ? { ...todo, text } : todo)),
+  const handleEditSubmit = (idInt: number, textStr: string): void => {
+    setActiveTodosArr(
+      activeTodosArr.map((todo) =>
+        todo.id === idInt ? { ...todo, text: textStr } : todo,
+      ),
     )
   }
 
   // Function to toggle selection state on a todo item
-  const toggleSelection = (id: number): void => {
+  const toggleSelection = (idInt: number): void => {
     // Toggle selection for the specific todo
-    setActiveTodos(
-      activeTodos.map((todo) =>
-        todo.id === id ? { ...todo, isSelected: !todo.isSelected } : todo,
+    setActiveTodosArr(
+      activeTodosArr.map((todo) =>
+        todo.id === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
       ),
     )
   }
@@ -124,9 +102,9 @@ function App(): JSX.Element {
       <h1>
         <input
           type="text"
-          value={title}
+          value={titleStr}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTitle(e.target.value)
+            setTitleStr(e.target.value)
           }
           className="title-input"
           spellCheck={false}
@@ -135,12 +113,12 @@ function App(): JSX.Element {
       </h1>
 
       <ActiveTodos
-        todos={activeTodos}
+        todos={activeTodosArr}
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
         onReorder={(ids: number[]) => {
-          setActiveTodos((prev) => {
+          setActiveTodosArr((prev) => {
             return ids
               .map((id) => prev.find((todo) => todo.id === id)!)
               .filter(Boolean)
@@ -167,23 +145,23 @@ function App(): JSX.Element {
       </div>
 
       <div className="actions">
-        {activeTodos.filter((todo) => todo.completed).length > 0 && (
+        {activeTodosArr.filter((todo) => todo.completed).length > 0 && (
           <span className="action-link" onClick={archiveDone}>
             Archive Done
           </span>
         )}
-        {activeTodos.filter((todo) => todo.completed).length > 0 && (
+        {activeTodosArr.filter((todo) => todo.completed).length > 0 && (
           <span className="separator"> | </span>
         )}
-        {completedTodos.length > 0 && (
+        {archivedTodosArr.length > 0 && (
           <span
             className="action-link"
-            onClick={() => setShowCompleted(!showCompleted)}
+            onClick={() => setShowCompletedArr(!showCompletedArr)}
           >
-            {showCompleted ? "Hide Archive" : "Show Archive"}
+            {showCompletedArr ? "Hide Archive" : "Show Archive"}
           </span>
         )}
-        {(activeTodos.length > 0 || completedTodos.length > 0) && (
+        {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
           <>
             <span className="separator"> | </span>
             <span className="action-link" onClick={clearAll}>
@@ -193,8 +171,8 @@ function App(): JSX.Element {
         )}
       </div>
 
-      {showCompleted && completedTodos.length > 0 && (
-        <CompletedTodos todos={completedTodos} />
+      {showCompletedArr && archivedTodosArr.length > 0 && (
+        <CompletedTodos todos={archivedTodosArr} />
       )}
     </div>
   )
