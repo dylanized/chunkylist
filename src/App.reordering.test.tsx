@@ -1,6 +1,7 @@
 import { render, screen, waitFor, act } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import App from "./App"
+import { Todo } from "./chunky-types"
 
 // Create mock types for testing
 interface MockDragEndEvent {
@@ -77,16 +78,17 @@ describe("App - Todo Reordering", () => {
 
   it("maintains the order of todos in localStorage after reordering", async () => {
     // Mock localStorage to return predefined todos
-    const predefinedTodos = [
-      { id: 1, text: "Task 1", completed: false, isSelected: false },
-      { id: 2, text: "Task 2", completed: false, isSelected: false },
-      { id: 3, text: "Task 3", completed: false, isSelected: false },
+    const predefinedTodosArr: Todo[] = [
+      { id: 1, text: "Task 1", isCompleted: false, isSelected: false },
+      { id: 2, text: "Task 2", isCompleted: false, isSelected: false },
+      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
     ]
 
-    mockLocalStorage.getItem.mockImplementation((key) => {
-      if (key === "chunkylist-todos") return JSON.stringify(predefinedTodos)
-      if (key === "chunkylist-completed") return JSON.stringify([])
-      if (key === "chunkylist-title") return "ChunkyList"
+    mockLocalStorage.getItem.mockImplementation((keyStr) => {
+      if (keyStr === "chunkylist-todos")
+        return JSON.stringify(predefinedTodosArr)
+      if (keyStr === "chunkylist-completed") return JSON.stringify([])
+      if (keyStr === "chunkylist-title") return "ChunkyList"
       return null
     })
 
@@ -119,27 +121,27 @@ describe("App - Todo Reordering", () => {
         .filter((call) => call[0] === "chunkylist-todos")
         .pop()
 
-      const updatedTodos = JSON.parse(lastSetItemCall[1])
+      const updatedTodosArr = JSON.parse(lastSetItemCall[1])
 
       // The expected order should be: Task 2, Task 3, Task 1
-      expect(updatedTodos[0].text).toBe("Task 2")
-      expect(updatedTodos[1].text).toBe("Task 3")
-      expect(updatedTodos[2].text).toBe("Task 1")
+      expect(updatedTodosArr[0].text).toBe("Task 2")
+      expect(updatedTodosArr[1].text).toBe("Task 3")
+      expect(updatedTodosArr[2].text).toBe("Task 1")
     })
   })
 
   it("preserves todo properties when reordering", async () => {
     // Mock localStorage with todos that have various properties set
-    const initialTodos = [
-      { id: 1, text: "Task 1", completed: false, isSelected: true },
-      { id: 2, text: "Task 2", completed: true, isSelected: false },
-      { id: 3, text: "Task 3", completed: false, isSelected: false },
+    const initialTodosArr: Todo[] = [
+      { id: 1, text: "Task 1", isCompleted: false, isSelected: true },
+      { id: 2, text: "Task 2", isCompleted: true, isSelected: false },
+      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
     ]
 
-    mockLocalStorage.getItem.mockImplementation((key) => {
-      if (key === "chunkylist-todos") return JSON.stringify(initialTodos)
-      if (key === "chunkylist-completed") return JSON.stringify([])
-      if (key === "chunkylist-title") return "ChunkyList"
+    mockLocalStorage.getItem.mockImplementation((keyStr) => {
+      if (keyStr === "chunkylist-todos") return JSON.stringify(initialTodosArr)
+      if (keyStr === "chunkylist-completed") return JSON.stringify([])
+      if (keyStr === "chunkylist-title") return "ChunkyList"
       return null
     })
 
@@ -172,39 +174,39 @@ describe("App - Todo Reordering", () => {
         .filter((call) => call[0] === "chunkylist-todos")
         .pop()
 
-      const updatedTodos = JSON.parse(lastSetItemCall[1])
+      const updatedTodosArr = JSON.parse(lastSetItemCall[1])
 
       // The expected order should be: Task 2, Task 1, Task 3
-      expect(updatedTodos[0].text).toBe("Task 2")
-      expect(updatedTodos[1].text).toBe("Task 1")
-      expect(updatedTodos[2].text).toBe("Task 3")
+      expect(updatedTodosArr[0].text).toBe("Task 2")
+      expect(updatedTodosArr[1].text).toBe("Task 1")
+      expect(updatedTodosArr[2].text).toBe("Task 3")
 
       // Check that properties are preserved
-      expect(updatedTodos[0].completed).toBe(true) // Task 2 was completed
-      expect(updatedTodos[0].isSelected).toBe(false)
+      expect(updatedTodosArr[0].isCompleted).toBe(true) // Task 2 was completed
+      expect(updatedTodosArr[0].isSelected).toBe(false)
 
-      expect(updatedTodos[1].completed).toBe(false)
-      expect(updatedTodos[1].isSelected).toBe(true) // Task 1 was selected
+      expect(updatedTodosArr[1].isCompleted).toBe(false)
+      expect(updatedTodosArr[1].isSelected).toBe(true) // Task 1 was selected
 
-      expect(updatedTodos[2].completed).toBe(false)
-      expect(updatedTodos[2].isSelected).toBe(false)
+      expect(updatedTodosArr[2].isCompleted).toBe(false)
+      expect(updatedTodosArr[2].isSelected).toBe(false)
     })
   })
 
   it("handles reordering when there are multiple drag operations", async () => {
     // Start with 5 todos
-    const initialTodos = [
-      { id: 1, text: "Task 1", completed: false, isSelected: false },
-      { id: 2, text: "Task 2", completed: false, isSelected: false },
-      { id: 3, text: "Task 3", completed: false, isSelected: false },
-      { id: 4, text: "Task 4", completed: false, isSelected: false },
-      { id: 5, text: "Task 5", completed: false, isSelected: false },
+    const initialTodosArr: Todo[] = [
+      { id: 1, text: "Task 1", isCompleted: false, isSelected: false },
+      { id: 2, text: "Task 2", isCompleted: false, isSelected: false },
+      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
+      { id: 4, text: "Task 4", isCompleted: false, isSelected: false },
+      { id: 5, text: "Task 5", isCompleted: false, isSelected: false },
     ]
 
-    mockLocalStorage.getItem.mockImplementation((key) => {
-      if (key === "chunkylist-todos") return JSON.stringify(initialTodos)
-      if (key === "chunkylist-completed") return JSON.stringify([])
-      if (key === "chunkylist-title") return "ChunkyList"
+    mockLocalStorage.getItem.mockImplementation((keyStr) => {
+      if (keyStr === "chunkylist-todos") return JSON.stringify(initialTodosArr)
+      if (keyStr === "chunkylist-completed") return JSON.stringify([])
+      if (keyStr === "chunkylist-title") return "ChunkyList"
       return null
     })
 
@@ -235,10 +237,10 @@ describe("App - Todo Reordering", () => {
         .filter((call) => call[0] === "chunkylist-todos")
         .pop()
 
-      const updatedTodos = JSON.parse(lastSetItemCall[1])
+      const updatedTodosArr = JSON.parse(lastSetItemCall[1])
 
       // Expected order after first reordering: 2, 3, 1, 4, 5
-      expect(updatedTodos.map((t: { id: number }) => t.id)).toEqual([
+      expect(updatedTodosArr.map((t: { id: number }) => t.id)).toEqual([
         2, 3, 1, 4, 5,
       ])
     })
@@ -262,10 +264,10 @@ describe("App - Todo Reordering", () => {
         .filter((call) => call[0] === "chunkylist-todos")
         .pop()
 
-      const updatedTodos = JSON.parse(lastSetItemCall[1])
+      const updatedTodosArr = JSON.parse(lastSetItemCall[1])
 
       // Expected order after second reordering: 5, 2, 3, 1, 4
-      expect(updatedTodos.map((t: { id: number }) => t.id)).toEqual([
+      expect(updatedTodosArr.map((t: { id: number }) => t.id)).toEqual([
         5, 2, 3, 1, 4,
       ])
     })
