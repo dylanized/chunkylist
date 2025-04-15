@@ -7,11 +7,11 @@ export function ArchivedTodos({ todosArr: todosArr }: ArchivedTodosProps) {
     <div className="archived-section">
       <ul className="todo-list archived-list">
         {todosArr.map((todo) => (
-          <li key={todo.idInt} className="completed">
+          <li key={todo.id} className="completed">
             <button className="checkbox-btn">
               <FontAwesomeIcon icon={faCircleCheck} className="completed" />
             </button>
-            <span>{todo.textStr}</span>
+            <span>{todo.text}</span>
           </li>
         ))}
       </ul>

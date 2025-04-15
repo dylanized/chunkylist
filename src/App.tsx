@@ -47,28 +47,21 @@ function App(): JSX.Element {
 
     const newTodosArr = [
       ...activeTodosArr,
-      {
-        idInt: Date.now(),
-        textStr: newTodo,
-        isCompleted: false,
-        isSelected: false,
-      },
+      { id: Date.now(), text: newTodo, isCompleted: false, isSelected: false },
     ]
     setActiveTodosArr(newTodosArr)
     setNewTodo("")
   }
 
   const deleteTodo = (idInt: number): void => {
-    const newTodosArr = activeTodosArr.filter((todo) => todo.idInt !== idInt)
+    const newTodosArr = activeTodosArr.filter((todo) => todo.id !== idInt)
     setActiveTodosArr(newTodosArr)
   }
 
   const toggleTodo = (idInt: number): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.idInt === idInt
-          ? { ...todo, isCompleted: !todo.isCompleted }
-          : todo,
+        todo.id === idInt ? { ...todo, isCompleted: !todo.isCompleted } : todo,
       ),
     )
   }
@@ -89,7 +82,7 @@ function App(): JSX.Element {
   const handleEditSubmit = (idInt: number, textStr: string): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.idInt === idInt ? { ...todo, textStr: textStr } : todo,
+        todo.id === idInt ? { ...todo, text: textStr } : todo,
       ),
     )
   }
@@ -99,7 +92,7 @@ function App(): JSX.Element {
     // Toggle selection for the specific todo
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.idInt === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
+        todo.id === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
       ),
     )
   }
@@ -124,10 +117,10 @@ function App(): JSX.Element {
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
-        onReorder={(idsArr: number[]) => {
+        onReorder={(ids: number[]) => {
           setActiveTodosArr((prev) => {
-            return idsArr
-              .map((idInt) => prev.find((todo) => todo.idInt === idInt)!)
+            return ids
+              .map((id) => prev.find((todo) => todo.id === id)!)
               .filter(Boolean)
           })
         }}

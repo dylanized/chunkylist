@@ -1,6 +1,6 @@
 export interface Todo {
-  idInt: number
-  textStr: string
+  id: number
+  text: string
   isCompleted: boolean
   isSelected: boolean
 }
