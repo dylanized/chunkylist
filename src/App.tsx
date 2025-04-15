@@ -113,7 +113,7 @@ function App(): JSX.Element {
       </h1>
 
       <ActiveTodos
-        todos={activeTodosArr}
+        todosArr={activeTodosArr}
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
@@ -172,7 +172,7 @@ function App(): JSX.Element {
       </div>
 
       {showCompletedArr && archivedTodosArr.length > 0 && (
-        <ArchivedTodos todos={archivedTodosArr} />
+        <ArchivedTodos todosArr={archivedTodosArr} />
       )}
     </div>
   )

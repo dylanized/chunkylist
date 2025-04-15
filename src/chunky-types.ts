@@ -15,7 +15,7 @@ export type TodoAction =
   | { type: "editSubmit"; payload: { id: number; text: string } }
 
 export interface ActiveTodosProps {
-  todos: Todo[]
+  todosArr: Todo[]
   onToggle: (id: number) => void
   onDelete: (id: number) => void
   onEditSubmit: (id: number, text: string) => void
@@ -23,6 +23,6 @@ export interface ActiveTodosProps {
   onStarSelect: (id: number) => void
 }
 
-export interface CompletedTodosProps {
-  todos: Todo[]
+export interface ArchivedTodosProps {
+  todosArr: Todo[]
 }
