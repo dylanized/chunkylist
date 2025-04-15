@@ -11,7 +11,7 @@ export function CompletedTodos({ todos }: CompletedTodosProps) {
             <button className="checkbox-btn">
               <FontAwesomeIcon icon={faCircleCheck} className="completed" />
             </button>
-            <span>{todo.text}</span>
+            <span>{todo.textStr}</span>
           </li>
         ))}
       </ul>

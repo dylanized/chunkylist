@@ -50,9 +50,9 @@ jest.mock("@dnd-kit/sortable", () => {
 
 describe("ActiveTodos", () => {
   const mockTodosArr: Todo[] = [
-    { id: 1, text: "Task 1", isCompleted: false, isSelected: false },
-    { id: 2, text: "Task 2", isCompleted: false, isSelected: false },
-    { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
+    { id: 1, textStr: "Task 1", isCompleted: false, isSelected: false },
+    { id: 2, textStr: "Task 2", isCompleted: false, isSelected: false },
+    { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
   ]
 
   const mockProps = {
@@ -144,11 +144,11 @@ describe("ActiveTodos", () => {
   it("correctly reorders multiple items", () => {
     // Create a larger list to test multiple reorderings
     const largeMockTodosArr: Todo[] = [
-      { id: 1, text: "Task 1", isCompleted: false, isSelected: false },
-      { id: 2, text: "Task 2", isCompleted: false, isSelected: false },
-      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
-      { id: 4, text: "Task 4", isCompleted: false, isSelected: false },
-      { id: 5, text: "Task 5", isCompleted: false, isSelected: false },
+      { id: 1, textStr: "Task 1", isCompleted: false, isSelected: false },
+      { id: 2, textStr: "Task 2", isCompleted: false, isSelected: false },
+      { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
+      { id: 4, textStr: "Task 4", isCompleted: false, isSelected: false },
+      { id: 5, textStr: "Task 5", isCompleted: false, isSelected: false },
     ]
 
     const largeMockProps = {

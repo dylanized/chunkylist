@@ -79,9 +79,9 @@ describe("App - Todo Reordering", () => {
   it("maintains the order of todos in localStorage after reordering", async () => {
     // Mock localStorage to return predefined todos
     const predefinedTodosArr: Todo[] = [
-      { id: 1, text: "Task 1", isCompleted: false, isSelected: false },
-      { id: 2, text: "Task 2", isCompleted: false, isSelected: false },
-      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
+      { id: 1, textStr: "Task 1", isCompleted: false, isSelected: false },
+      { id: 2, textStr: "Task 2", isCompleted: false, isSelected: false },
+      { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
     ]
 
     mockLocalStorage.getItem.mockImplementation((keyStr) => {
@@ -124,18 +124,18 @@ describe("App - Todo Reordering", () => {
       const updatedTodosArr = JSON.parse(lastSetItemCall[1])
 
       // The expected order should be: Task 2, Task 3, Task 1
-      expect(updatedTodosArr[0].text).toBe("Task 2")
-      expect(updatedTodosArr[1].text).toBe("Task 3")
-      expect(updatedTodosArr[2].text).toBe("Task 1")
+      expect(updatedTodosArr[0].textStr).toBe("Task 2")
+      expect(updatedTodosArr[1].textStr).toBe("Task 3")
+      expect(updatedTodosArr[2].textStr).toBe("Task 1")
     })
   })
 
   it("preserves todo properties when reordering", async () => {
     // Mock localStorage with todos that have various properties set
     const initialTodosArr: Todo[] = [
-      { id: 1, text: "Task 1", isCompleted: false, isSelected: true },
-      { id: 2, text: "Task 2", isCompleted: true, isSelected: false },
-      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
+      { id: 1, textStr: "Task 1", isCompleted: false, isSelected: true },
+      { id: 2, textStr: "Task 2", isCompleted: true, isSelected: false },
+      { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
     ]
 
     mockLocalStorage.getItem.mockImplementation((keyStr) => {
@@ -177,9 +177,9 @@ describe("App - Todo Reordering", () => {
       const updatedTodosArr = JSON.parse(lastSetItemCall[1])
 
       // The expected order should be: Task 2, Task 1, Task 3
-      expect(updatedTodosArr[0].text).toBe("Task 2")
-      expect(updatedTodosArr[1].text).toBe("Task 1")
-      expect(updatedTodosArr[2].text).toBe("Task 3")
+      expect(updatedTodosArr[0].textStr).toBe("Task 2")
+      expect(updatedTodosArr[1].textStr).toBe("Task 1")
+      expect(updatedTodosArr[2].textStr).toBe("Task 3")
 
       // Check that properties are preserved
       expect(updatedTodosArr[0].isCompleted).toBe(true) // Task 2 was completed
@@ -196,11 +196,11 @@ describe("App - Todo Reordering", () => {
   it("handles reordering when there are multiple drag operations", async () => {
     // Start with 5 todos
     const initialTodosArr: Todo[] = [
-      { id: 1, text: "Task 1", isCompleted: false, isSelected: false },
-      { id: 2, text: "Task 2", isCompleted: false, isSelected: false },
-      { id: 3, text: "Task 3", isCompleted: false, isSelected: false },
-      { id: 4, text: "Task 4", isCompleted: false, isSelected: false },
-      { id: 5, text: "Task 5", isCompleted: false, isSelected: false },
+      { id: 1, textStr: "Task 1", isCompleted: false, isSelected: false },
+      { id: 2, textStr: "Task 2", isCompleted: false, isSelected: false },
+      { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
+      { id: 4, textStr: "Task 4", isCompleted: false, isSelected: false },
+      { id: 5, textStr: "Task 5", isCompleted: false, isSelected: false },
     ]
 
     mockLocalStorage.getItem.mockImplementation((keyStr) => {

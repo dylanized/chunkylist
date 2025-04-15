@@ -49,7 +49,7 @@ export function ActiveTodos({
     const todoToEdit = todos.find((todo) => todo.id === id)
     if (todoToEdit) {
       setEditingTodo(id)
-      setEditText(todoToEdit.text)
+      setEditText(todoToEdit.textStr)
     }
   }
 
@@ -161,7 +161,7 @@ function SortableTodoItem({
             autoFocus
           />
         ) : (
-          <span>{todo.text}</span>
+          <span>{todo.textStr}</span>
         )}
       </div>
       <div className="item-actions">

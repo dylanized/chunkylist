@@ -47,7 +47,12 @@ function App(): JSX.Element {
 
     const newTodosArr = [
       ...activeTodosArr,
-      { id: Date.now(), text: newTodo, isCompleted: false, isSelected: false },
+      {
+        id: Date.now(),
+        textStr: newTodo,
+        isCompleted: false,
+        isSelected: false,
+      },
     ]
     setActiveTodosArr(newTodosArr)
     setNewTodo("")
@@ -82,7 +87,7 @@ function App(): JSX.Element {
   const handleEditSubmit = (idInt: number, textStr: string): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, text: textStr } : todo,
+        todo.id === idInt ? { ...todo, textStr: textStr } : todo,
       ),
     )
   }
