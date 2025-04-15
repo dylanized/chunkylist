@@ -48,10 +48,10 @@ export function ActiveTodos({
   const [editTextStr, setEditTextStr] = useState<string>("")
 
   const handleEdit = (idInt: number) => {
-    const todoToEdit = todos.find((todo) => todo.id === idInt)
+    const todoToEdit = todos.find((todo) => todo.idInt === idInt)
     if (todoToEdit) {
       setOptionalEditingTodoInt(idInt)
-      setEditTextStr(todoToEdit.text)
+      setEditTextStr(todoToEdit.textStr)
     }
   }
 
@@ -69,21 +69,21 @@ export function ActiveTodos({
       onDragEnd={(event) => {
         const { active, over } = event
         if (active.id !== over?.id) {
-          const oldIndex = todos.findIndex((todo) => todo.id === active.id)
-          const newIndex = todos.findIndex((todo) => todo.id === over?.id)
+          const oldIndex = todos.findIndex((todo) => todo.idInt === active.id)
+          const newIndex = todos.findIndex((todo) => todo.idInt === over?.id)
           const newOrderArr = arrayMove(todos, oldIndex, newIndex)
-          onReorder(newOrderArr.map((todo) => todo.id))
+          onReorder(newOrderArr.map((todo) => todo.idInt))
         }
       }}
     >
       <SortableContext
-        items={todos.map((todo) => todo.id)}
+        items={todos.map((todo) => todo.idInt)}
         strategy={verticalListSortingStrategy}
       >
         <ul className="todo-list">
           {todos.map((todo) => (
             <SortableTodoItem
-              key={todo.id}
+              key={todo.idInt}
               todo={todo}
               onToggle={onToggle}
               onDelete={onDelete}
@@ -119,7 +119,7 @@ function SortableTodoItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: todo.id })
+  } = useSortable({ id: todo.idInt })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -140,7 +140,7 @@ function SortableTodoItem({
         className="todo-left"
         onClick={(e) => {
           e.stopPropagation()
-          onToggle(todo.id)
+          onToggle(todo.idInt)
         }}
         role="button"
         aria-label={
@@ -153,26 +153,28 @@ function SortableTodoItem({
             className={todo.isCompleted ? "completed" : ""}
           />
         </button>
-        {editingTodo === todo.id ? (
+        {editingTodo === todo.idInt ? (
           <input
             type="text"
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleEditSubmit(todo.id)}
+            onKeyPress={(e) =>
+              e.key === "Enter" && handleEditSubmit(todo.idInt)
+            }
             className="edit-input"
             autoFocus
           />
         ) : (
-          <span>{todo.text}</span>
+          <span>{todo.textStr}</span>
         )}
       </div>
       <div className="item-actions">
-        {editingTodo === todo.id ? (
+        {editingTodo === todo.idInt ? (
           <div className="edit-star-container">
             <button
               className="star-btn"
               onClick={() => {
-                onStarSelect(todo.id)
+                onStarSelect(todo.idInt)
               }}
               title="Select todo"
             >
@@ -182,7 +184,7 @@ function SortableTodoItem({
             </button>
             <button
               className="edit-btn"
-              onClick={() => handleEditSubmit(todo.id)}
+              onClick={() => handleEditSubmit(todo.idInt)}
               title="Save changes"
             >
               <FontAwesomeIcon icon={faFloppyDisk} />
@@ -193,7 +195,7 @@ function SortableTodoItem({
             <button
               className="star-btn"
               onClick={() => {
-                onStarSelect(todo.id)
+                onStarSelect(todo.idInt)
               }}
               title="Select todo"
             >
@@ -203,7 +205,7 @@ function SortableTodoItem({
             </button>
             <button
               className="edit-btn"
-              onClick={() => handleEdit(todo.id)}
+              onClick={() => handleEdit(todo.idInt)}
               title="Edit todo"
             >
               <FontAwesomeIcon icon={faPenToSquare} />
@@ -212,7 +214,7 @@ function SortableTodoItem({
         )}
         <button
           className="delete-btn"
-          onClick={() => onDelete(todo.id)}
+          onClick={() => onDelete(todo.idInt)}
           title="Delete todo"
         >
           <FontAwesomeIcon icon={faTrash} />

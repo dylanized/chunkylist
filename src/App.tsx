@@ -47,21 +47,28 @@ function App(): JSX.Element {
 
     const newTodosArr = [
       ...activeTodosArr,
-      { id: Date.now(), text: newTodo, isCompleted: false, isSelected: false },
+      {
+        idInt: Date.now(),
+        textStr: newTodo,
+        isCompleted: false,
+        isSelected: false,
+      },
     ]
     setActiveTodosArr(newTodosArr)
     setNewTodo("")
   }
 
   const deleteTodo = (idInt: number): void => {
-    const newTodosArr = activeTodosArr.filter((todo) => todo.id !== idInt)
+    const newTodosArr = activeTodosArr.filter((todo) => todo.idInt !== idInt)
     setActiveTodosArr(newTodosArr)
   }
 
   const toggleTodo = (idInt: number): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, isCompleted: !todo.isCompleted } : todo,
+        todo.idInt === idInt
+          ? { ...todo, isCompleted: !todo.isCompleted }
+          : todo,
       ),
     )
   }
@@ -82,7 +89,7 @@ function App(): JSX.Element {
   const handleEditSubmit = (idInt: number, textStr: string): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, text: textStr } : todo,
+        todo.idInt === idInt ? { ...todo, textStr: textStr } : todo,
       ),
     )
   }
@@ -92,7 +99,7 @@ function App(): JSX.Element {
     // Toggle selection for the specific todo
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
+        todo.idInt === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
       ),
     )
   }
@@ -117,10 +124,10 @@ function App(): JSX.Element {
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
-        onReorder={(ids: number[]) => {
+        onReorder={(idsArr: number[]) => {
           setActiveTodosArr((prev) => {
-            return ids
-              .map((id) => prev.find((todo) => todo.id === id)!)
+            return idsArr
+              .map((idInt) => prev.find((todo) => todo.idInt === idInt)!)
               .filter(Boolean)
           })
         }}
