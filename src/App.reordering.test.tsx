@@ -117,11 +117,11 @@ describe("App - Todo Reordering", () => {
     // Wait for the state to update
     await waitFor(() => {
       // Check that localStorage.setItem was called with the new order
-      const lastSetItemCall = mockLocalStorage.setItem.mock.calls
+      const lastSetItemCallArr = mockLocalStorage.setItem.mock.calls
         .filter((call) => call[0] === "chunkylist-todos")
         .pop()
 
-      const updatedTodosArr = JSON.parse(lastSetItemCall[1])
+      const updatedTodosArr = JSON.parse(lastSetItemCallArr[1])
 
       // The expected order should be: Task 2, Task 3, Task 1
       expect(updatedTodosArr[0].textStr).toBe("Task 2")
@@ -170,11 +170,11 @@ describe("App - Todo Reordering", () => {
     // Wait for the state to update
     await waitFor(() => {
       // Check that localStorage.setItem was called with the new order
-      const lastSetItemCall = mockLocalStorage.setItem.mock.calls
+      const lastSetItemCallArr = mockLocalStorage.setItem.mock.calls
         .filter((call) => call[0] === "chunkylist-todos")
         .pop()
 
-      const updatedTodosArr = JSON.parse(lastSetItemCall[1])
+      const updatedTodosArr = JSON.parse(lastSetItemCallArr[1])
 
       // The expected order should be: Task 2, Task 1, Task 3
       expect(updatedTodosArr[0].textStr).toBe("Task 2")
