@@ -45,7 +45,7 @@ function App(): JSX.Element {
   const addTodo = (): void => {
     if (newTodoStr.trim() === "") return
 
-    const newTodosArr = [
+    const newTodosArr: Todo[] = [
       ...activeTodosArr,
       {
         id: Date.now(),
