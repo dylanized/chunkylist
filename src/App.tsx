@@ -47,7 +47,7 @@ function App(): JSX.Element {
 
     const newTodosArr = [
       ...activeTodosArr,
-      { id: Date.now(), text: newTodo, completed: false, isSelected: false },
+      { id: Date.now(), text: newTodo, isCompleted: false, isSelected: false },
     ]
     setActiveTodosArr(newTodosArr)
     setNewTodo("")
@@ -61,7 +61,7 @@ function App(): JSX.Element {
   const toggleTodo = (idInt: number): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, completed: !todo.completed } : todo,
+        todo.id === idInt ? { ...todo, isCompleted: !todo.isCompleted } : todo,
       ),
     )
   }
@@ -72,8 +72,8 @@ function App(): JSX.Element {
   }
 
   const archiveDone = (): void => {
-    const completedItemsArr = activeTodosArr.filter((todo) => todo.completed)
-    const activeItemsArr = activeTodosArr.filter((todo) => !todo.completed)
+    const completedItemsArr = activeTodosArr.filter((todo) => todo.isCompleted)
+    const activeItemsArr = activeTodosArr.filter((todo) => !todo.isCompleted)
 
     setArchivedTodosArr([...archivedTodosArr, ...completedItemsArr])
     setActiveTodosArr(activeItemsArr)
@@ -145,12 +145,12 @@ function App(): JSX.Element {
       </div>
 
       <div className="actions">
-        {activeTodosArr.filter((todo) => todo.completed).length > 0 && (
+        {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
           <span className="action-link" onClick={archiveDone}>
             Archive Done
           </span>
         )}
-        {activeTodosArr.filter((todo) => todo.completed).length > 0 && (
+        {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
           <span className="separator"> | </span>
         )}
         {archivedTodosArr.length > 0 && (
