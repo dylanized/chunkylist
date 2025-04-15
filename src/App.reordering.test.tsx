@@ -84,7 +84,7 @@ describe("App - Todo Reordering", () => {
       { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
     ]
 
-    mockLocalStorage.getItem.mockImplementation((keyStr) => {
+    mockLocalStorage.getItem.mockImplementation((keyStr: string) => {
       if (keyStr === "chunkylist-todos")
         return JSON.stringify(predefinedTodosArr)
       if (keyStr === "chunkylist-completed") return JSON.stringify([])
