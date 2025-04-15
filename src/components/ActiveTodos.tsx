@@ -42,22 +42,24 @@ export function ActiveTodos({
   onReorder,
   onStarSelect,
 }: ActiveTodosProps) {
-  const [editingTodo, setEditingTodo] = useState<number | null>(null)
-  const [editText, setEditText] = useState<string>("")
+  const [optionalEditingTodoInt, setOptionalEditingTodoInt] = useState<
+    number | null
+  >(null)
+  const [editTextStr, setEditTextStr] = useState<string>("")
 
-  const handleEdit = (id: number) => {
-    const todoToEdit = todos.find((todo) => todo.id === id)
+  const handleEdit = (idInt: number) => {
+    const todoToEdit = todos.find((todo) => todo.id === idInt)
     if (todoToEdit) {
-      setEditingTodo(id)
-      setEditText(todoToEdit.text)
+      setOptionalEditingTodoInt(idInt)
+      setEditTextStr(todoToEdit.text)
     }
   }
 
-  const handleEditSubmit = (id: number) => {
-    if (editingTodo !== null && editText.trim() !== "") {
-      onEditSubmit(id, editText)
-      setEditingTodo(null)
-      setEditText("")
+  const handleEditSubmit = (idInt: number) => {
+    if (optionalEditingTodoInt !== null && editTextStr.trim() !== "") {
+      onEditSubmit(idInt, editTextStr)
+      setOptionalEditingTodoInt(null)
+      setEditTextStr("")
     }
   }
 
@@ -69,8 +71,8 @@ export function ActiveTodos({
         if (active.id !== over?.id) {
           const oldIndex = todos.findIndex((todo) => todo.id === active.id)
           const newIndex = todos.findIndex((todo) => todo.id === over?.id)
-          const newOrder = arrayMove(todos, oldIndex, newIndex)
-          onReorder(newOrder.map((todo) => todo.id))
+          const newOrderArr = arrayMove(todos, oldIndex, newIndex)
+          onReorder(newOrderArr.map((todo) => todo.id))
         }
       }}
     >
@@ -85,9 +87,9 @@ export function ActiveTodos({
               todo={todo}
               onToggle={onToggle}
               onDelete={onDelete}
-              editingTodo={editingTodo}
-              editText={editText}
-              setEditText={setEditText}
+              editingTodo={optionalEditingTodoInt}
+              editText={editTextStr}
+              setEditText={setEditTextStr}
               handleEdit={handleEdit}
               handleEditSubmit={handleEditSubmit}
               onStarSelect={onStarSelect}
