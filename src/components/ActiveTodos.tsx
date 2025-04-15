@@ -121,7 +121,7 @@ function SortableTodoItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: todo.idInt })
+  } = useSortable({ idInt: todo.idInt })
 
   const style = {
     transform: CSS.Transform.toString(transform),
