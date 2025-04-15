@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import { ActiveTodos } from "./ActiveTodos"
 import { arrayMove } from "@dnd-kit/sortable"
-import { Todo } from "../chunky-types"
+import { ActiveTodosProps, FlexibleObject, Todo } from "../chunky-types"
 
 // Create mock types for testing
 interface MockDragEndEvent {
@@ -55,8 +55,8 @@ describe("ActiveTodos", () => {
     { id: 3, textStr: "Task 3", isCompleted: false, isSelected: false },
   ]
 
-  const mockProps = {
-    todos: mockTodosArr,
+  const mockProps: ActiveTodosProps & { onReorder: FlexibleObject } = {
+    todosArr: mockTodosArr,
     onToggle: jest.fn(),
     onDelete: jest.fn(),
     onEditSubmit: jest.fn(),
@@ -151,9 +151,9 @@ describe("ActiveTodos", () => {
       { id: 5, textStr: "Task 5", isCompleted: false, isSelected: false },
     ]
 
-    const largeMockProps = {
+    const largeMockProps: ActiveTodosProps = {
       ...mockProps,
-      todos: largeMockTodosArr,
+      todosArr: largeMockTodosArr,
     }
 
     render(<ActiveTodos {...largeMockProps} />)

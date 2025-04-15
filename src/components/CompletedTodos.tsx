@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons"
 import { CompletedTodosProps } from "../chunky-types"
 
-export function CompletedTodos({ todos }: CompletedTodosProps) {
+export function CompletedTodos({ todosArr: todos }: CompletedTodosProps) {
   return (
     <div className="completed-section">
       <ul className="todo-list completed-list">
