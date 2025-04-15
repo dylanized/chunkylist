@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons"
-import { ArchivedTodosProps } from "../chunky-types"
+import { CompletedTodosProps } from "../chunky-types"
 
-export function ArchivedTodos({ todosArr: todosArr }: ArchivedTodosProps) {
+export function ArchivedTodos({ todos }: CompletedTodosProps) {
   return (
     <div className="archived-section">
       <ul className="todo-list archived-list">
-        {todosArr.map((todo) => (
+        {todos.map((todo) => (
           <li key={todo.id} className="completed">
             <button className="checkbox-btn">
               <FontAwesomeIcon icon={faCircleCheck} className="completed" />

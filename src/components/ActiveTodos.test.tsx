@@ -48,14 +48,14 @@ jest.mock("@dnd-kit/sortable", () => {
 })
 
 describe("ActiveTodos", () => {
-  const mockTodosArr = [
+  const mockTodos = [
     { id: 1, text: "Task 1", completed: false, isSelected: false },
     { id: 2, text: "Task 2", completed: false, isSelected: false },
     { id: 3, text: "Task 3", completed: false, isSelected: false },
   ]
 
   const mockProps = {
-    todosArr: mockTodosArr,
+    todos: mockTodos,
     onToggle: jest.fn(),
     onDelete: jest.fn(),
     onEditSubmit: jest.fn(),
@@ -71,7 +71,7 @@ describe("ActiveTodos", () => {
     render(<ActiveTodos {...mockProps} />)
 
     const todoItems = screen.getAllByRole("listitem")
-    expect(todoItems).toHaveLength(mockTodosArr.length)
+    expect(todoItems).toHaveLength(mockTodos.length)
   })
 
   it("calls onReorder with correct order when items are reordered", () => {
@@ -89,17 +89,17 @@ describe("ActiveTodos", () => {
     ).mockDragEnd(mockDragEndEvent)
 
     // Calculate the expected new order
-    const oldIndex = mockTodosArr.findIndex(
+    const oldIndex = mockTodos.findIndex(
       (todo) => todo.id === mockDragEndEvent.active.id,
     )
-    const newIndex = mockTodosArr.findIndex(
+    const newIndex = mockTodos.findIndex(
       (todo) => todo.id === mockDragEndEvent.over!.id,
     )
-    const newOrderArr = arrayMove(mockTodosArr, oldIndex, newIndex)
-    const expectedIdsArr = newOrderArr.map((todo) => todo.id)
+    const newOrder = arrayMove(mockTodos, oldIndex, newIndex)
+    const expectedIds = newOrder.map((todo) => todo.id)
 
     // Check that onReorder was called with the correct order
-    expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIdsArr)
+    expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIds)
   })
 
   it("doesn't call onReorder when drag ends on the same item", () => {
@@ -142,7 +142,7 @@ describe("ActiveTodos", () => {
 
   it("correctly reorders multiple items", () => {
     // Create a larger list to test multiple reorderings
-    const largeMockTodosArr = [
+    const largeMockTodos = [
       { id: 1, text: "Task 1", completed: false, isSelected: false },
       { id: 2, text: "Task 2", completed: false, isSelected: false },
       { id: 3, text: "Task 3", completed: false, isSelected: false },
@@ -152,7 +152,7 @@ describe("ActiveTodos", () => {
 
     const largeMockProps = {
       ...mockProps,
-      todosArr: largeMockTodosArr,
+      todos: largeMockTodos,
     }
 
     render(<ActiveTodos {...largeMockProps} />)
@@ -168,16 +168,16 @@ describe("ActiveTodos", () => {
     ).mockDragEnd(mockDragEndEvent)
 
     // Calculate expected order after first reordering
-    let oldIndex = largeMockTodosArr.findIndex(
+    let oldIndex = largeMockTodos.findIndex(
       (todo) => todo.id === mockDragEndEvent.active.id,
     )
-    let newIndex = largeMockTodosArr.findIndex(
+    let newIndex = largeMockTodos.findIndex(
       (todo) => todo.id === mockDragEndEvent.over!.id,
     )
-    const newOrderArr = arrayMove(largeMockTodosArr, oldIndex, newIndex)
-    let expectedIdsArr = newOrderArr.map((todo) => todo.id)
+    const newOrder = arrayMove(largeMockTodos, oldIndex, newIndex)
+    let expectedIds = newOrder.map((todo) => todo.id)
 
-    expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIdsArr)
+    expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIds)
 
     // Reset the mock to test another reordering
     mockProps.onReorder.mockClear()
@@ -195,10 +195,10 @@ describe("ActiveTodos", () => {
     // The implementation uses the current order of todos in the component
     // Since we're not actually updating the component's props between tests,
     // we need to calculate based on the original order
-    oldIndex = largeMockTodosArr.findIndex((todo) => todo.id === 5)
-    newIndex = largeMockTodosArr.findIndex((todo) => todo.id === 2)
-    const finalOrderArr = arrayMove(largeMockTodosArr, oldIndex, newIndex)
-    expectedIdsArr = finalOrderArr.map((todo) => todo.id)
+    oldIndex = largeMockTodos.findIndex((todo) => todo.id === 5)
+    newIndex = largeMockTodos.findIndex((todo) => todo.id === 2)
+    const finalOrder = arrayMove(largeMockTodos, oldIndex, newIndex)
+    expectedIds = finalOrder.map((todo) => todo.id)
 
     expect(mockProps.onReorder).toHaveBeenCalledWith([1, 5, 2, 3, 4])
   })

@@ -35,7 +35,7 @@ interface SortableTodoItemProps {
 }
 
 export function ActiveTodos({
-  todosArr: todos,
+  todos,
   onToggle,
   onDelete,
   onEditSubmit,
