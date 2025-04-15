@@ -133,7 +133,7 @@ function SortableTodoItem({
     <li
       ref={setNodeRef}
       style={style}
-      className={`${todo.isCompleted ? "completed" : ""} ${todo.isSelected ? "selected" : ""} ${isDragging ? "dragging" : ""}`}
+      className={`${todo.completed ? "completed" : ""} ${todo.isSelected ? "selected" : ""} ${isDragging ? "dragging" : ""}`}
       role="listitem"
     >
       <div
@@ -143,14 +143,12 @@ function SortableTodoItem({
           onToggle(todo.id)
         }}
         role="button"
-        aria-label={
-          todo.isCompleted ? "Mark as incomplete" : "Mark as complete"
-        }
+        aria-label={todo.completed ? "Mark as incomplete" : "Mark as complete"}
       >
         <button className="checkbox-btn">
           <FontAwesomeIcon
-            icon={todo.isCompleted ? faCircleCheck : faCircle}
-            className={todo.isCompleted ? "completed" : ""}
+            icon={todo.completed ? faCircleCheck : faCircle}
+            className={todo.completed ? "completed" : ""}
           />
         </button>
         {editingTodo === todo.id ? (
