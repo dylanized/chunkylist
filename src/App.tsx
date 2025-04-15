@@ -117,10 +117,10 @@ function App(): JSX.Element {
         onToggle={toggleTodo}
         onDelete={deleteTodo}
         onEditSubmit={handleEditSubmit}
-        onReorder={(ids: number[]) => {
+        onReorder={(idsArr: number[]) => {
           setActiveTodosArr((prev) => {
-            return ids
-              .map((id) => prev.find((todo) => todo.id === id)!)
+            return idsArr
+              .map((idInt) => prev.find((todo) => todo.id === idInt)!)
               .filter(Boolean)
           })
         }}
