@@ -35,7 +35,7 @@ interface SortableTodoItemProps {
 }
 
 export function ActiveTodos({
-  todosArr: todos,
+  todosArr,
   onToggle,
   onDelete,
   onEditSubmit,
@@ -46,10 +46,10 @@ export function ActiveTodos({
   const [editText, setEditText] = useState<string>("")
 
   const handleEdit = (id: number) => {
-    const todoToEdit = todos.find((todo) => todo.id === id)
-    if (todoToEdit) {
+    const optionalTodoToEdit = todosArr.find((todo) => todo.id === id)
+    if (optionalTodoToEdit) {
       setEditingTodo(id)
-      setEditText(todoToEdit.textStr)
+      setEditText(optionalTodoToEdit.textStr)
     }
   }
 
@@ -67,19 +67,19 @@ export function ActiveTodos({
       onDragEnd={(event) => {
         const { active, over } = event
         if (active.id !== over?.id) {
-          const oldIndex = todos.findIndex((todo) => todo.id === active.id)
-          const newIndex = todos.findIndex((todo) => todo.id === over?.id)
-          const newOrder = arrayMove(todos, oldIndex, newIndex)
+          const oldIndex = todosArr.findIndex((todo) => todo.id === active.id)
+          const newIndex = todosArr.findIndex((todo) => todo.id === over?.id)
+          const newOrder = arrayMove(todosArr, oldIndex, newIndex)
           onReorder(newOrder.map((todo) => todo.id))
         }
       }}
     >
       <SortableContext
-        items={todos.map((todo) => todo.id)}
+        items={todosArr.map((todo) => todo.id)}
         strategy={verticalListSortingStrategy}
       >
         <ul className="todo-list">
-          {todos.map((todo) => (
+          {todosArr.map((todo) => (
             <SortableTodoItem
               key={todo.id}
               todo={todo}

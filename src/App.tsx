@@ -7,33 +7,33 @@ import { Todo } from "./chunky-types"
 import "./App.css"
 
 // Define constants for localstorage keys
-const ACTIVE_TODOS_KEY = "chunkylist-todos"
-const ARCHIVED_TODOS_KEY = "chunkylist-completed"
-const TITLE_KEY = "chunkylist-title"
+const ACTIVE_TODOS_KEY: string = "chunkylist-todos"
+const ARCHIVED_TODOS_KEY: string = "chunkylist-completed"
+const TITLE_KEY: string = "chunkylist-title"
 
 // Define the main App component
 function App(): JSX.Element {
   // Remove selectedIds state as we'll use isSelected property on todo items
-  const [showCompletedArr, setShowCompletedArr] = useState(false)
+  const [isArchiveVisible, setIsArchiveVisible] = useState(false)
   const [titleStr, setTitleStr] = useState<string>(() => {
-    const savedStr = localStorage.getItem(TITLE_KEY)
-    return savedStr || "ChunkyList"
+    const optionalSavedStr = localStorage.getItem(TITLE_KEY)
+    return optionalSavedStr || "ChunkyList"
   })
 
   // Create reactive props for active todos, optionally using data from localstorage
   const [activeTodosArr, setActiveTodosArr] = useState<Todo[]>(() => {
-    const savedStr = localStorage.getItem(ACTIVE_TODOS_KEY)
+    const optionalSavedStr = localStorage.getItem(ACTIVE_TODOS_KEY)
     // Add isSelected: false to each todo when loading from localStorage
-    return savedStr ? JSON.parse(savedStr) : []
+    return optionalSavedStr ? JSON.parse(optionalSavedStr) : []
   })
 
   // Create reactive props for completed todos, optionally using data from localstorage
   const [archivedTodosArr, setArchivedTodosArr] = useState<Todo[]>(() => {
-    const savedStr = localStorage.getItem(ARCHIVED_TODOS_KEY)
+    const optionalSavedStr = localStorage.getItem(ARCHIVED_TODOS_KEY)
     // Add isSelected: false to each todo when loading from localStorage
-    return savedStr ? JSON.parse(savedStr) : []
+    return optionalSavedStr ? JSON.parse(optionalSavedStr) : []
   })
-  const [newTodo, setNewTodo] = useState("")
+  const [newTodoStr, setNewTodoStr] = useState("")
 
   // When any values change, save them all to localstorage
   useEffect(() => {
@@ -43,19 +43,19 @@ function App(): JSX.Element {
   }, [titleStr, activeTodosArr, archivedTodosArr])
 
   const addTodo = (): void => {
-    if (newTodo.trim() === "") return
+    if (newTodoStr.trim() === "") return
 
     const newTodosArr = [
       ...activeTodosArr,
       {
         id: Date.now(),
-        textStr: newTodo,
+        textStr: newTodoStr,
         isCompleted: false,
         isSelected: false,
       },
     ]
     setActiveTodosArr(newTodosArr)
-    setNewTodo("")
+    setNewTodoStr("")
   }
 
   const deleteTodo = (idInt: number): void => {
@@ -135,9 +135,9 @@ function App(): JSX.Element {
       <div className="add-todo">
         <input
           type="text"
-          value={newTodo}
+          value={newTodoStr}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setNewTodo(e.target.value)
+            setNewTodoStr(e.target.value)
           }
           placeholder="Add a new task"
           onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
@@ -161,9 +161,9 @@ function App(): JSX.Element {
         {archivedTodosArr.length > 0 && (
           <span
             className="action-link"
-            onClick={() => setShowCompletedArr(!showCompletedArr)}
+            onClick={() => setIsArchiveVisible(!isArchiveVisible)}
           >
-            {showCompletedArr ? "Hide Archive" : "Show Archive"}
+            {isArchiveVisible ? "Hide Archive" : "Show Archive"}
           </span>
         )}
         {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
@@ -176,7 +176,7 @@ function App(): JSX.Element {
         )}
       </div>
 
-      {showCompletedArr && archivedTodosArr.length > 0 && (
+      {isArchiveVisible && archivedTodosArr.length > 0 && (
         <CompletedTodos todosArr={archivedTodosArr} />
       )}
     </div>

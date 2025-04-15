@@ -71,7 +71,7 @@ describe("ActiveTodos", () => {
   it("renders the todo list with correct number of items", () => {
     render(<ActiveTodos {...mockProps} />)
 
-    const todoItems = screen.getAllByRole("listitem")
+    const todoItems: unknown[] = screen.getAllByRole("listitem")
     expect(todoItems).toHaveLength(mockTodosArr.length)
   })
 
@@ -90,14 +90,14 @@ describe("ActiveTodos", () => {
     ).mockDragEnd(mockDragEndEvent)
 
     // Calculate the expected new order
-    const oldIndex = mockTodosArr.findIndex(
+    const oldIndex: number = mockTodosArr.findIndex(
       (todo) => todo.id === mockDragEndEvent.active.id,
     )
-    const newIndex = mockTodosArr.findIndex(
+    const newIndex: number = mockTodosArr.findIndex(
       (todo) => todo.id === mockDragEndEvent.over!.id,
     )
-    const newOrder = arrayMove(mockTodosArr, oldIndex, newIndex)
-    const expectedIds = newOrder.map((todo) => todo.id)
+    const newOrder: Todo[] = arrayMove(mockTodosArr, oldIndex, newIndex)
+    const expectedIds: number[] = newOrder.map((todo) => todo.id as number)
 
     // Check that onReorder was called with the correct order
     expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIds)
@@ -169,14 +169,14 @@ describe("ActiveTodos", () => {
     ).mockDragEnd(mockDragEndEvent)
 
     // Calculate expected order after first reordering
-    let oldIndex = largeMockTodosArr.findIndex(
+    let oldIndex: number = largeMockTodosArr.findIndex(
       (todo) => todo.id === mockDragEndEvent.active.id,
     )
-    let newIndex = largeMockTodosArr.findIndex(
+    let newIndex: number = largeMockTodosArr.findIndex(
       (todo) => todo.id === mockDragEndEvent.over!.id,
     )
-    const newOrder = arrayMove(largeMockTodosArr, oldIndex, newIndex)
-    let expectedIdsArr = newOrder.map((todo) => todo.id)
+    const newOrder: Todo[] = arrayMove(largeMockTodosArr, oldIndex, newIndex)
+    let expectedIdsArr: number[] = newOrder.map((todo) => todo.id as number)
 
     expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIdsArr)
 
@@ -198,8 +198,12 @@ describe("ActiveTodos", () => {
     // we need to calculate based on the original order
     oldIndex = largeMockTodosArr.findIndex((todo) => todo.id === 5)
     newIndex = largeMockTodosArr.findIndex((todo) => todo.id === 2)
-    const finalOrderArr = arrayMove(largeMockTodosArr, oldIndex, newIndex)
-    expectedIdsArr = finalOrderArr.map((todo) => todo.id)
+    const finalOrderArr: Todo[] = arrayMove(
+      largeMockTodosArr,
+      oldIndex,
+      newIndex,
+    )
+    expectedIdsArr = finalOrderArr.map((todo) => todo.id as number)
 
     expect(mockProps.onReorder).toHaveBeenCalledWith(expectedIdsArr)
   })
