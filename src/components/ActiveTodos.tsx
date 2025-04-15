@@ -26,16 +26,16 @@ interface SortableTodoItemProps {
   todo: Todo
   onToggle: (id: number) => void
   onDelete: (id: number) => void
-  editingTodo: number | null
-  editText: string
-  setEditText: React.Dispatch<React.SetStateAction<string>>
+  optionalEditingTodoInt: number | null
+  editTextStr: string
+  setEditTextStr: React.Dispatch<React.SetStateAction<string>>
   handleEdit: (id: number) => void
   handleEditSubmit: (id: number) => void
   onStarSelect: (id: number) => void
 }
 
 export function ActiveTodos({
-  todosArr: todos,
+  todosArr,
   onToggle,
   onDelete,
   onEditSubmit,
@@ -48,7 +48,7 @@ export function ActiveTodos({
   const [editTextStr, setEditTextStr] = useState<string>("")
 
   const handleEdit = (idInt: number) => {
-    const todoToEdit = todos.find((todo) => todo.idInt === idInt)
+    const todoToEdit = todosArr.find((todo) => todo.idInt === idInt)
     if (todoToEdit) {
       setOptionalEditingTodoInt(idInt)
       setEditTextStr(todoToEdit.textStr)
@@ -69,27 +69,29 @@ export function ActiveTodos({
       onDragEnd={(event) => {
         const { active, over } = event
         if (active.id !== over?.id) {
-          const oldIndex = todos.findIndex((todo) => todo.idInt === active.id)
-          const newIndex = todos.findIndex((todo) => todo.idInt === over?.id)
-          const newOrderArr = arrayMove(todos, oldIndex, newIndex)
+          const oldIndex = todosArr.findIndex(
+            (todo) => todo.idInt === active.id,
+          )
+          const newIndex = todosArr.findIndex((todo) => todo.idInt === over?.id)
+          const newOrderArr = arrayMove(todosArr, oldIndex, newIndex)
           onReorder(newOrderArr.map((todo) => todo.idInt))
         }
       }}
     >
       <SortableContext
-        items={todos.map((todo) => todo.idInt)}
+        items={todosArr.map((todo) => todo.idInt)}
         strategy={verticalListSortingStrategy}
       >
         <ul className="todo-list">
-          {todos.map((todo) => (
+          {todosArr.map((todo) => (
             <SortableTodoItem
               key={todo.idInt}
               todo={todo}
               onToggle={onToggle}
               onDelete={onDelete}
-              editingTodo={optionalEditingTodoInt}
-              editText={editTextStr}
-              setEditText={setEditTextStr}
+              optionalEditingTodoInt={optionalEditingTodoInt}
+              editTextStr={editTextStr}
+              setEditTextStr={setEditTextStr}
               handleEdit={handleEdit}
               handleEditSubmit={handleEditSubmit}
               onStarSelect={onStarSelect}
@@ -105,9 +107,9 @@ function SortableTodoItem({
   todo,
   onToggle,
   onDelete,
-  editingTodo,
-  editText,
-  setEditText,
+  optionalEditingTodoInt: optionalEditingTodoInt,
+  editTextStr: editTextStr,
+  setEditTextStr: setEditTextStr,
   handleEdit,
   handleEditSubmit,
   onStarSelect,
@@ -119,7 +121,7 @@ function SortableTodoItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: todo.idInt })
+  } = useSortable({ idInt: todo.idInt })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -153,11 +155,11 @@ function SortableTodoItem({
             className={todo.isCompleted ? "completed" : ""}
           />
         </button>
-        {editingTodo === todo.idInt ? (
+        {optionalEditingTodoInt === todo.idInt ? (
           <input
             type="text"
-            value={editText}
-            onChange={(e) => setEditText(e.target.value)}
+            value={editTextStr}
+            onChange={(e) => setEditTextStr(e.target.value)}
             onKeyPress={(e) =>
               e.key === "Enter" && handleEditSubmit(todo.idInt)
             }
@@ -169,7 +171,7 @@ function SortableTodoItem({
         )}
       </div>
       <div className="item-actions">
-        {editingTodo === todo.idInt ? (
+        {optionalEditingTodoInt === todo.idInt ? (
           <div className="edit-star-container">
             <button
               className="star-btn"

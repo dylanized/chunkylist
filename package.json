@@ -1,6 +1,6 @@
 {
-  "engines" : {
-    "node" : ">=21"
+  "engines": {
+    "node": ">=21"
   },
   "name": "chunky-list",
   "private": true,
