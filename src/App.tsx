@@ -114,6 +114,7 @@ function App(): JSX.Element {
         <span
           contentEditable
           suppressContentEditableWarning={true}
+          spellCheck={false}
           onBlur={(e) => setTitleStr(e.currentTarget.textContent || "")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

@@ -133,13 +133,12 @@ h1 .title-icon {
   border-bottom: 1px solid #eee;
   background: white;
   transition: background-color 0.2s ease;
-  gap: 20px;
+  gap: 10px;
 }
 
 .todo-left {
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -149,8 +148,24 @@ h1 .title-icon {
   background-color: transparent;
 }
 
-.todo-list li span {
+.todo-text {
+  flex: 1;
+  padding: 10px 0;
+  cursor: text;
+  text-align: left;
+}
+
+.todo-text span {
+  display: block;
   font-weight: bold;
+  outline: none;
+  min-height: 1.2em;
+  text-align: left;
+}
+
+.todo-text span:focus {
+  outline: none;
+  text-decoration: none;
 }
 
 .todo-list li:hover {
@@ -180,7 +195,7 @@ h1 .title-icon {
   padding-left: 7px;
 }
 
-.todo-list li.completed span {
+.todo-list li.completed .todo-text span {
   text-decoration: line-through;
   color: #888;
 }

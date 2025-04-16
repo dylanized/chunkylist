@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faCircle,
@@ -7,8 +6,6 @@ import {
 } from "@fortawesome/free-regular-svg-icons"
 import {
   faTrash,
-  faPenToSquare,
-  faFloppyDisk,
   faGripVertical,
   faStar as faStarSolid,
 } from "@fortawesome/free-solid-svg-icons"
@@ -26,11 +23,7 @@ interface SortableTodoItemProps {
   todo: Todo
   onToggle: (id: number) => void
   onDelete: (id: number) => void
-  editingTodo: number | null
-  editText: string
-  setEditText: React.Dispatch<React.SetStateAction<string>>
-  handleEdit: (id: number) => void
-  handleEditSubmit: (id: number) => void
+  handleEditSubmit: (id: number, text: string) => void
   onStarSelect: (id: number) => void
 }
 
@@ -42,22 +35,9 @@ export function ActiveTodos({
   onReorder,
   onStarSelect,
 }: ActiveTodosProps) {
-  const [editingTodo, setEditingTodo] = useState<number | null>(null)
-  const [editText, setEditText] = useState<string>("")
-
-  const handleEdit = (id: number) => {
-    const optionalTodoToEdit = todosArr.find((todo) => todo.id === id)
-    if (optionalTodoToEdit) {
-      setEditingTodo(id)
-      setEditText(optionalTodoToEdit.textStr)
-    }
-  }
-
-  const handleEditSubmit = (id: number) => {
-    if (editingTodo !== null && editText.trim() !== "") {
-      onEditSubmit(id, editText)
-      setEditingTodo(null)
-      setEditText("")
+  const handleEditSubmit = (id: number, text: string) => {
+    if (text.trim() !== "") {
+      onEditSubmit(id, text)
     }
   }
 
@@ -85,10 +65,6 @@ export function ActiveTodos({
               todo={todo}
               onToggle={onToggle}
               onDelete={onDelete}
-              editingTodo={editingTodo}
-              editText={editText}
-              setEditText={setEditText}
-              handleEdit={handleEdit}
               handleEditSubmit={handleEditSubmit}
               onStarSelect={onStarSelect}
             />
@@ -103,10 +79,6 @@ function SortableTodoItem({
   todo,
   onToggle,
   onDelete,
-  editingTodo,
-  editText,
-  setEditText,
-  handleEdit,
   handleEditSubmit,
   onStarSelect,
 }: SortableTodoItemProps) {
@@ -151,63 +123,43 @@ function SortableTodoItem({
             className={todo.isCompleted ? "completed" : ""}
           />
         </button>
-        {editingTodo === todo.id ? (
-          <input
-            type="text"
-            value={editText}
-            onChange={(e) => setEditText(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleEditSubmit(todo.id)}
-            className="edit-input"
-            autoFocus
-          />
-        ) : (
-          <span>{todo.textStr}</span>
-        )}
+      </div>
+      <div className="todo-text">
+        <span
+          contentEditable
+          suppressContentEditableWarning={true}
+          spellCheck={false}
+          onBlur={(e) => {
+            const newText = e.currentTarget.textContent || ""
+            if (newText.trim() !== "" && newText !== todo.textStr) {
+              handleEditSubmit(todo.id, newText)
+            } else {
+              // Reset to original text if empty or unchanged
+              e.currentTarget.textContent = todo.textStr
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault()
+              e.currentTarget.blur()
+            }
+          }}
+        >
+          {todo.textStr}
+        </span>
       </div>
       <div className="item-actions">
-        {editingTodo === todo.id ? (
-          <div className="edit-star-container">
-            <button
-              className="star-btn"
-              onClick={() => {
-                onStarSelect(todo.id)
-              }}
-              title="Select todo"
-            >
-              <FontAwesomeIcon
-                icon={todo.isSelected ? faStarSolid : faStarRegular}
-              />
-            </button>
-            <button
-              className="edit-btn"
-              onClick={() => handleEditSubmit(todo.id)}
-              title="Save changes"
-            >
-              <FontAwesomeIcon icon={faFloppyDisk} />
-            </button>
-          </div>
-        ) : (
-          <div className="edit-star-container">
-            <button
-              className="star-btn"
-              onClick={() => {
-                onStarSelect(todo.id)
-              }}
-              title="Select todo"
-            >
-              <FontAwesomeIcon
-                icon={todo.isSelected ? faStarSolid : faStarRegular}
-              />
-            </button>
-            <button
-              className="edit-btn"
-              onClick={() => handleEdit(todo.id)}
-              title="Edit todo"
-            >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-          </div>
-        )}
+        <button
+          className="star-btn"
+          onClick={() => {
+            onStarSelect(todo.id)
+          }}
+          title="Select todo"
+        >
+          <FontAwesomeIcon
+            icon={todo.isSelected ? faStarSolid : faStarRegular}
+          />
+        </button>
         <button
           className="delete-btn"
           onClick={() => onDelete(todo.id)}
