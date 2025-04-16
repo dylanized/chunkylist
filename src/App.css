@@ -12,9 +12,19 @@ h1 {
   color: #333;
   margin-bottom: 30px;
   font-size: 3.5em;
-  display: flex;
+  display: inline-block;
   align-items: center;
   gap: 15px;
+}
+
+h1 span {
+  border: none;
+  margin-right: 1rem;
+  display: inline-block;
+}
+
+h1 span:focus {
+  outline: 0px solid transparent;
 }
 
 .title-input {

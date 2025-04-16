@@ -93,25 +93,11 @@ function App(): JSX.Element {
   }
 
   const toggleSelection = (idInt: number): void => {
-    // First, toggle the selection state of the clicked todo
     const updatedTodosArr: Todo[] = activeTodosArr.map((todo) =>
       todo.id === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
     )
 
-    // If it's deselected, sort selected items to the top
-    const reorderedTodosArr: Todo[] = [...updatedTodosArr].sort((a, b) => {
-      // If both items have the same selection state, maintain their relative order
-      if (a.isSelected === b.isSelected) {
-        // For the clicked item that was just selected, move it to the top of selected items
-        if (a.isSelected && a.id === idInt) return -1
-        if (b.isSelected && b.id === idInt) return 1
-        return 0
-      }
-      // Otherwise, selected items come first
-      return a.isSelected ? -1 : 1
-    })
-
-    setActiveTodosArr(reorderedTodosArr)
+    setActiveTodosArr(updatedTodosArr)
   }
 
   const toggleTodo = (idInt: number): void => {
@@ -125,15 +111,20 @@ function App(): JSX.Element {
   return (
     <div className="container">
       <h1>
-        <input
-          type="text"
-          value={titleStr}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTitleStr(e.target.value)
-          }
-          className="title-input"
-          spellCheck={false}
-        />
+        <span
+          contentEditable
+          suppressContentEditableWarning={true}
+          onBlur={(e) => setTitleStr(e.currentTarget.textContent || "")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault()
+              e.currentTarget.blur()
+            }
+          }}
+        >
+          {titleStr}
+        </span>
+
         <FontAwesomeIcon icon={faSquareCheck} className="title-icon" />
       </h1>
 
