@@ -60,26 +60,6 @@ function App(): JSX.Element {
     setNewTodoStr("")
   }
 
-  const deleteTodo = (idInt: number): void => {
-    const newTodosArr: Todo[] = activeTodosArr.filter(
-      (todo) => todo.id !== idInt,
-    )
-    setActiveTodosArr(newTodosArr)
-  }
-
-  const toggleTodo = (idInt: number): void => {
-    setActiveTodosArr(
-      activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, isCompleted: !todo.isCompleted } : todo,
-      ),
-    )
-  }
-
-  const clearAll = (): void => {
-    setActiveTodosArr([])
-    setArchivedTodosArr([])
-  }
-
   const archiveDone = (): void => {
     const completedItemsArr: Todo[] = activeTodosArr.filter(
       (todo) => todo.isCompleted,
@@ -92,6 +72,18 @@ function App(): JSX.Element {
     setActiveTodosArr(activeItemsArr)
   }
 
+  const clearAll = (): void => {
+    setActiveTodosArr([])
+    setArchivedTodosArr([])
+  }
+
+  const deleteTodo = (idInt: number): void => {
+    const newTodosArr: Todo[] = activeTodosArr.filter(
+      (todo) => todo.id !== idInt,
+    )
+    setActiveTodosArr(newTodosArr)
+  }
+
   const handleEditSubmit = (idInt: number, textStr: string): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
@@ -100,7 +92,6 @@ function App(): JSX.Element {
     )
   }
 
-  // Function to toggle selection state on a todo item
   const toggleSelection = (idInt: number): void => {
     // First, toggle the selection state of the clicked todo
     const updatedTodosArr: Todo[] = activeTodosArr.map((todo) =>
@@ -121,6 +112,14 @@ function App(): JSX.Element {
     })
 
     setActiveTodosArr(reorderedTodosArr)
+  }
+
+  const toggleTodo = (idInt: number): void => {
+    setActiveTodosArr(
+      activeTodosArr.map((todo) =>
+        todo.id === idInt ? { ...todo, isCompleted: !todo.isCompleted } : todo,
+      ),
+    )
   }
 
   return (
