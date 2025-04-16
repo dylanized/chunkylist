@@ -9,7 +9,7 @@ export interface ActiveTodosProps {
   onStarSelect: (id: number) => void
 }
 
-export interface CompletedTodosProps {
+export interface ArchivedTodosProps {
   todosArr: Todo[]
 }
 
