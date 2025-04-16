@@ -30,7 +30,8 @@ function App(): JSX.Element {
 
   // Create reactive props for completed todos, optionally using data from localstorage
   const [archivedTodosArr, setArchivedTodosArr] = useState<Todo[]>(() => {
-    const optionalSavedStr = localStorage.getItem(ARCHIVED_TODOS_KEY)
+    const optionalSavedStr: string | null =
+      localStorage.getItem(ARCHIVED_TODOS_KEY)
     // Add isSelected: false to each todo when loading from localStorage
     return optionalSavedStr ? JSON.parse(optionalSavedStr) : []
   })
