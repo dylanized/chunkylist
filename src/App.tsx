@@ -16,13 +16,14 @@ function App(): JSX.Element {
   // Remove selectedIds state as we'll use isSelected property on todo items
   const [isArchiveVisible, setIsArchiveVisible] = useState(false)
   const [titleStr, setTitleStr] = useState<string>(() => {
-    const optionalSavedStr = localStorage.getItem(TITLE_KEY)
+    const optionalSavedStr: string | null = localStorage.getItem(TITLE_KEY)
     return optionalSavedStr || "ChunkyList"
   })
 
   // Create reactive props for active todos, optionally using data from localstorage
   const [activeTodosArr, setActiveTodosArr] = useState<Todo[]>(() => {
-    const optionalSavedStr = localStorage.getItem(ACTIVE_TODOS_KEY)
+    const optionalSavedStr: string | null =
+      localStorage.getItem(ACTIVE_TODOS_KEY)
     // Add isSelected: false to each todo when loading from localStorage
     return optionalSavedStr ? JSON.parse(optionalSavedStr) : []
   })
@@ -59,7 +60,9 @@ function App(): JSX.Element {
   }
 
   const deleteTodo = (idInt: number): void => {
-    const newTodosArr = activeTodosArr.filter((todo) => todo.id !== idInt)
+    const newTodosArr: Todo[] = activeTodosArr.filter(
+      (todo) => todo.id !== idInt,
+    )
     setActiveTodosArr(newTodosArr)
   }
 
@@ -77,8 +80,12 @@ function App(): JSX.Element {
   }
 
   const archiveDone = (): void => {
-    const completedItemsArr = activeTodosArr.filter((todo) => todo.isCompleted)
-    const activeItemsArr = activeTodosArr.filter((todo) => !todo.isCompleted)
+    const completedItemsArr: Todo[] = activeTodosArr.filter(
+      (todo) => todo.isCompleted,
+    )
+    const activeItemsArr: Todo[] = activeTodosArr.filter(
+      (todo) => !todo.isCompleted,
+    )
 
     setArchivedTodosArr([...archivedTodosArr, ...completedItemsArr])
     setActiveTodosArr(activeItemsArr)
@@ -94,12 +101,25 @@ function App(): JSX.Element {
 
   // Function to toggle selection state on a todo item
   const toggleSelection = (idInt: number): void => {
-    // Toggle selection for the specific todo
-    setActiveTodosArr(
-      activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
-      ),
+    // First, toggle the selection state of the clicked todo
+    const updatedTodosArr: Todo[] = activeTodosArr.map((todo) =>
+      todo.id === idInt ? { ...todo, isSelected: !todo.isSelected } : todo,
     )
+
+    // If it's deselected, sort selected items to the top
+    const reorderedTodosArr: Todo[] = [...updatedTodosArr].sort((a, b) => {
+      // If both items have the same selection state, maintain their relative order
+      if (a.isSelected === b.isSelected) {
+        // For the clicked item that was just selected, move it to the top of selected items
+        if (a.isSelected && a.id === idInt) return -1
+        if (b.isSelected && b.id === idInt) return 1
+        return 0
+      }
+      // Otherwise, selected items come first
+      return a.isSelected ? -1 : 1
+    })
+
+    setActiveTodosArr(reorderedTodosArr)
   }
 
   return (
