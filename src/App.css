@@ -589,12 +589,14 @@ h1 .title-icon {
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
   .container {
-    padding: 10px 15px 15px;
+    padding: 10px 10px 15px;
+    max-width: 100%;
   }
 
   h1 {
     font-size: 2.5em;
     padding-left: 25px;
+    margin-bottom: 20px;
   }
 
   .title-kebab {
@@ -605,16 +607,20 @@ h1 .title-icon {
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    padding: 15px;
+    margin-top: 15px;
   }
 
   .add-todo input {
     width: 100%;
     box-sizing: border-box;
+    padding: 12px 15px;
   }
 
   .add-todo button {
     width: 100%;
     box-sizing: border-box;
+    padding: 12px 15px;
   }
 
   .todo-list li {
@@ -625,12 +631,27 @@ h1 .title-icon {
     min-width: 0;
     flex: 1;
   }
+
+  .todo-list {
+    margin-bottom: 10px;
+  }
 }
 
 @media screen and (max-width: 480px) {
+  .container {
+    padding: 5px 5px 10px;
+  }
+
   h1 {
     font-size: 2em;
     padding-left: 15px;
+    margin-bottom: 15px;
+  }
+
+  .add-todo {
+    padding: 12px;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .kebab-popover {
@@ -654,5 +675,18 @@ h1 .title-icon {
 
   .todo-text {
     width: calc(100% - 40px);
+  }
+
+  .todo-list li {
+    padding: 0;
+    margin-bottom: 5px;
+  }
+
+  .todo-left {
+    padding: 8px;
+  }
+
+  .item-actions {
+    padding: 8px;
   }
 }
