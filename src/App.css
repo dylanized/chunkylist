@@ -585,3 +585,74 @@ h1 .title-icon {
 .completed-list .checkbox-btn .completed {
   color: #4CAF50;
 }
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 10px 15px 15px;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    padding-left: 25px;
+  }
+
+  .title-kebab {
+    margin-left: 5px;
+  }
+
+  .add-todo {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .add-todo input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .add-todo button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .todo-list li {
+    flex-wrap: wrap;
+  }
+
+  .todo-text {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+    padding-left: 15px;
+  }
+
+  .kebab-popover {
+    min-width: 200px;
+    right: -50px;
+    left: auto;
+    transform: none;
+  }
+
+  .kebab-popover::before {
+    left: auto;
+    right: 60px;
+  }
+
+  .todo-list li .item-actions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-left: 40px;
+    margin-top: 5px;
+  }
+
+  .todo-text {
+    width: calc(100% - 40px);
+  }
+}
