@@ -330,6 +330,7 @@ h1 .title-icon {
   opacity: 0;
   transition: opacity 0.2s ease, color 0.2s ease;
   font-size: 0.8em;
+  outline: none;
 }
 
 .todo-list li:hover .delete-btn {
@@ -342,6 +343,10 @@ h1 .title-icon {
 
 .todo-list li .delete-btn:active {
   color: #cc0000;
+}
+
+.todo-list li .delete-btn:focus {
+  outline: none;
 }
 
 .todo-list li .checkbox-btn,
