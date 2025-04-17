@@ -15,6 +15,7 @@ h1 {
   display: inline-block;
   align-items: center;
   gap: 15px;
+  justify-content: center;
 }
 
 h1 span {
@@ -444,6 +445,99 @@ h1 .title-icon {
 .actions .separator {
   color: #999;
   user-select: none;
+}
+
+.kebab-icon-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.kebab-menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.kebab-icon {
+  color: #cccccc;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.kebab-menu-wrapper:hover .kebab-icon {
+  color: #888888;
+}
+
+.kebab-popover {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 6px 0;
+  min-width: 150px;
+  z-index: 10;
+  margin-left: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.kebab-popover::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translateY(-50%);
+  border-width: 8px 8px 8px 0;
+  border-style: solid;
+  border-color: transparent white transparent transparent;
+  filter: drop-shadow(-3px 0px 2px rgba(0, 0, 0, 0.05));
+}
+
+.kebab-menu-wrapper:hover .kebab-popover {
+  opacity: 1;
+  visibility: visible;
+}
+
+.kebab-menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+  color: #666;
+  font-size: 0.85em;
+}
+
+.kebab-menu-item:hover {
+  color: #333;
+}
+
+.kebab-menu-item svg {
+  width: 14px;
+  color: #999;
+}
+
+.kebab-menu-item:hover svg {
+  color: #666;
+}
+
+.archive-done-item:hover svg {
+  color: #9c27b0 !important; /* Purple */
+}
+
+.show-archive-item:hover svg {
+  color: #2196f3 !important; /* Blue */
+}
+
+.clear-all-item:hover svg {
+  color: #ff4444 !important; /* Red */
 }
 
 .completed-section {

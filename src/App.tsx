@@ -1,6 +1,13 @@
 import { useState, useEffect, ChangeEvent, KeyboardEvent } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus, faSquareCheck } from "@fortawesome/free-solid-svg-icons"
+import {
+  faPlus,
+  faSquareCheck,
+  faEllipsisH,
+  faArchive,
+  faEye,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons"
 import { ActiveTodos } from "./components/ActiveTodos"
 import { ArchivedTodos } from "./components/ArchivedTodos"
 import { Todo } from "./chunky-types"
@@ -161,32 +168,40 @@ function App(): JSX.Element {
         </button>
       </div>
 
-      <div className="actions">
-        {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
-          <span className="action-link" onClick={archiveDone}>
-            Archive Done
-          </span>
-        )}
-        {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
-          <span className="separator"> | </span>
-        )}
-        {archivedTodosArr.length > 0 && (
-          <span
-            className="action-link"
-            onClick={() => setIsArchiveVisible(!isArchiveVisible)}
-          >
-            {isArchiveVisible ? "Hide Archive" : "Show Archive"}
-          </span>
-        )}
-        {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
-          <>
-            <span className="separator"> | </span>
-            <span className="action-link" onClick={clearAll}>
-              Clear All
-            </span>
-          </>
-        )}
-      </div>
+      {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
+        <div className="kebab-icon-container">
+          <div className="kebab-menu-wrapper">
+            <FontAwesomeIcon icon={faEllipsisH} className="kebab-icon" />
+            <div className="kebab-popover">
+              {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
+                <div
+                  className="kebab-menu-item archive-done-item"
+                  onClick={archiveDone}
+                >
+                  <FontAwesomeIcon icon={faArchive} /> Archive Done
+                </div>
+              )}
+              {archivedTodosArr.length > 0 && (
+                <div
+                  className="kebab-menu-item show-archive-item"
+                  onClick={() => setIsArchiveVisible(!isArchiveVisible)}
+                >
+                  <FontAwesomeIcon icon={faEye} />{" "}
+                  {isArchiveVisible ? "Hide Archive" : "Show Archive"}
+                </div>
+              )}
+              {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
+                <div
+                  className="kebab-menu-item clear-all-item"
+                  onClick={clearAll}
+                >
+                  <FontAwesomeIcon icon={faTrash} /> Clear All
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {isArchiveVisible && archivedTodosArr.length > 0 && (
         <ArchivedTodos todosArr={archivedTodosArr} />
