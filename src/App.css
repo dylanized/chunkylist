@@ -1,7 +1,6 @@
 :root {
   /* Primary colors */
   --color-primary: #4CAF50;
-  --color-primary-dark: #388E3C;
   --color-primary-light: #45a049;
   
   /* Text colors */
@@ -154,6 +153,10 @@ h1 .title-icon {
   background: var(--color-bg-light);
 }
 
+.add-todo input:hover {
+  transform: scale(1.02);
+}
+
 .add-todo input::placeholder {
   color: var(--color-text-lighter);
 }
@@ -181,17 +184,9 @@ h1 .title-icon {
   outline: none;
 }
 
-.add-todo button:focus {
-  box-shadow: 0 0 0 2px var(--color-primary-dark);
-}
-
 .add-todo button:hover {
   background-color: var(--color-primary-light);
   transform: scale(1.02);
-}
-
-.add-todo button:active {
-  transform: scale(1);
 }
 
 .todo-list {
@@ -316,65 +311,6 @@ h1 .title-icon {
 .todo-list li.dragging .drag-handle {
   opacity: 1;
   color: var(--color-primary);
-}
-
-.todo-list li .edit-input {
-  padding: 4px 8px;
-  border: 1px solid var(--color-border-medium);
-  border-radius: 4px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.todo-list li .edit-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-}
-
-.todo-list li .edit-input::placeholder {
-  color: var(--color-text-lighter);
-}
-
-.todo-list li .edit-btn {
-  padding: 4px 8px;
-  background-color: transparent;
-  color: var(--color-text-lighter);
-  border: none;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease, color 0.2s ease;
-  margin-right: 2px;
-  font-size: 0.9em;
-}
-
-.todo-list li .edit-btn:focus {
-  outline: none;
-}
-
-.todo-list li:hover .edit-btn {
-  opacity: 1;
-}
-
-.todo-list li .edit-btn:hover {
-  color: var(--color-primary);
-}
-
-.todo-list li .edit-btn:active {
-  color: var(--color-primary-dark);
-}
-
-.todo-list li.editing .edit-btn {
-  opacity: 1;
-}
-
-.todo-list li.editing .edit-btn:hover {
-  color: var(--color-primary);
-}
-
-.todo-list li.editing .edit-btn:active {
-  color: var(--color-primary-dark);
 }
 
 .todo-list li .delete-btn {

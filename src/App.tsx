@@ -32,7 +32,6 @@ function App(): JSX.Element {
   const [activeTodosArr, setActiveTodosArr] = useState<Todo[]>(() => {
     const optionalSavedStr: string | null =
       localStorage.getItem(ACTIVE_TODOS_KEY)
-    // Add isSelected: false to each todo when loading from localStorage
     return optionalSavedStr ? JSON.parse(optionalSavedStr) : []
   })
 
@@ -40,7 +39,6 @@ function App(): JSX.Element {
   const [archivedTodosArr, setArchivedTodosArr] = useState<Todo[]>(() => {
     const optionalSavedStr: string | null =
       localStorage.getItem(ARCHIVED_TODOS_KEY)
-    // Add isSelected: false to each todo when loading from localStorage
     return optionalSavedStr ? JSON.parse(optionalSavedStr) : []
   })
   const [newTodoStr, setNewTodoStr] = useState("")
@@ -54,12 +52,11 @@ function App(): JSX.Element {
 
   // Add click handler to close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (): void => {
       if (isMenuVisible) {
         setIsMenuVisible(false)
       }
     }
-
     document.addEventListener("click", handleClickOutside)
     return () => {
       document.removeEventListener("click", handleClickOutside)
@@ -86,12 +83,12 @@ function App(): JSX.Element {
     const completedItemsArr: Todo[] = activeTodosArr.filter(
       (todo) => todo.isCompleted,
     )
-    const activeItemsArr: Todo[] = activeTodosArr.filter(
+    const openItemsArr: Todo[] = activeTodosArr.filter(
       (todo) => !todo.isCompleted,
     )
 
     setArchivedTodosArr([...archivedTodosArr, ...completedItemsArr])
-    setActiveTodosArr(activeItemsArr)
+    setActiveTodosArr(openItemsArr)
   }
 
   const clearAll = (): void => {
@@ -109,7 +106,7 @@ function App(): JSX.Element {
   const handleEditSubmit = (idInt: number, textStr: string): void => {
     setActiveTodosArr(
       activeTodosArr.map((todo) =>
-        todo.id === idInt ? { ...todo, textStr: textStr } : todo,
+        todo.id === idInt ? { ...todo, textStr } : todo,
       ),
     )
   }
