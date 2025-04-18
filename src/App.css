@@ -244,7 +244,7 @@ h1 .title-icon {
   cursor: grab;
   color: #666;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, color 0.2s ease;
   user-select: none;
 }
 
@@ -255,6 +255,12 @@ h1 .title-icon {
 .todo-list li:hover .drag-handle:hover {
   opacity: 1;
   color: #666;
+}
+
+.todo-list li .drag-handle:focus {
+  opacity: 1;
+  color: #333;
+  outline: none;
 }
 
 .todo-list li.dragging .drag-handle {
