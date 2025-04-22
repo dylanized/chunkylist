@@ -140,7 +140,7 @@ h1 .title-icon {
   background: var(--color-bg-white);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: var(--color-shadow-medium);
+  /*box-shadow: 0 2px 8px var(--color-shadow-medium);*/
 }
 
 .add-todo input {
@@ -502,7 +502,8 @@ h1 .title-icon {
   transform: translateX(-50%);
   background-color: var(--color-bg-white);
   border-radius: 8px;
-  box-shadow: var(--color-shadow-medium);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
+  border: 1px solid var(--color-bg-white);
   padding: 6px 0;
   min-width: 150px;
   z-index: 10;
@@ -521,7 +522,7 @@ h1 .title-icon {
   border-width: 0 8px 8px 8px;
   border-style: solid;
   border-color: transparent transparent var(--color-bg-white) transparent;
-  filter: drop-shadow(0px -3px 2px var(--color-shadow-light));
+  filter: drop-shadow(0 -1px 1px var(--color-border-medium));
 }
 
 .kebab-menu-wrapper:hover .kebab-popover,
