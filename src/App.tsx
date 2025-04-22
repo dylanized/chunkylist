@@ -129,16 +129,54 @@ function App(): JSX.Element {
 
   return (
     <div className="container">
+      {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
+        <div
+          className={`kebab-menu-wrapper ${isMenuVisible ? "menu-active" : ""}`}
+        >
+          <FontAwesomeIcon
+            icon={faEllipsisH}
+            className="kebab-icon"
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsMenuVisible(!isMenuVisible)
+            }}
+          />
+          <div className="kebab-popover">
+            {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
+              <div
+                className="kebab-menu-item archive-done-item"
+                onClick={archiveDone}
+              >
+                <FontAwesomeIcon icon={faArchive} /> Archive Done
+              </div>
+            )}
+            {archivedTodosArr.length > 0 && (
+              <div
+                className="kebab-menu-item show-archive-item"
+                onClick={() => setIsArchiveVisible(!isArchiveVisible)}
+              >
+                <FontAwesomeIcon icon={faEye} />{" "}
+                {isArchiveVisible ? "Hide Archive" : "Show Archive"}
+              </div>
+            )}
+            {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
+              <div
+                className="kebab-menu-item clear-all-item"
+                onClick={clearAll}
+              >
+                <FontAwesomeIcon icon={faTrash} /> Clear All
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div className="title-container">
         <h1>
           <span
             contentEditable
             suppressContentEditableWarning={true}
             spellCheck={false}
-            onBlur={(e) => {
-              const newTitle = e.currentTarget.textContent || ""
-              setTitleStr(newTitle.slice(0, 14))
-            }}
+            onBlur={(e) => setTitleStr(e.currentTarget.textContent || "")}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault()
@@ -148,51 +186,8 @@ function App(): JSX.Element {
           >
             {titleStr}
           </span>
-
           <FontAwesomeIcon icon={faSquareCheck} className="title-icon" />
         </h1>
-
-        {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
-          <div
-            className={`kebab-menu-wrapper title-kebab ${isMenuVisible ? "menu-active" : ""}`}
-          >
-            <FontAwesomeIcon
-              icon={faEllipsisH}
-              className="kebab-icon"
-              onClick={(e) => {
-                e.stopPropagation()
-                setIsMenuVisible(!isMenuVisible)
-              }}
-            />
-            <div className="kebab-popover">
-              {activeTodosArr.filter((todo) => todo.isCompleted).length > 0 && (
-                <div
-                  className="kebab-menu-item archive-done-item"
-                  onClick={archiveDone}
-                >
-                  <FontAwesomeIcon icon={faArchive} /> Archive Done
-                </div>
-              )}
-              {archivedTodosArr.length > 0 && (
-                <div
-                  className="kebab-menu-item show-archive-item"
-                  onClick={() => setIsArchiveVisible(!isArchiveVisible)}
-                >
-                  <FontAwesomeIcon icon={faEye} />{" "}
-                  {isArchiveVisible ? "Hide Archive" : "Show Archive"}
-                </div>
-              )}
-              {(activeTodosArr.length > 0 || archivedTodosArr.length > 0) && (
-                <div
-                  className="kebab-menu-item clear-all-item"
-                  onClick={clearAll}
-                >
-                  <FontAwesomeIcon icon={faTrash} /> Clear All
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
 
       <ActiveTodos

@@ -152,20 +152,15 @@ h1 .title-icon {
   font-size: 17px;
   border: 2px solid var(--color-border-light);
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   background: var(--color-bg-light);
 }
 
 .add-todo input:hover {
-  border-color: var(--color-border-medium);
-}
-
-.add-todo input:hover::placeholder {
-  color: var(--color-text-light);
+  /*transform: scale(1.02);*/
 }
 
 .add-todo input::placeholder {
-  transition: all 0.2s ease;
   color: var(--color-text-lighter);
 }
 
@@ -186,7 +181,7 @@ h1 .title-icon {
   gap: 12px;
   font-weight: bold;
   font-size: 17px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   min-width: 120px;
   justify-content: center;
   outline: none;
@@ -310,7 +305,7 @@ h1 .title-icon {
   color: var(--color-text-medium);
 }
 
-.todo-list li .drag-handle:focus {
+.todo-list li.dragging .drag-handle:focus {
   opacity: 1;
   color: var(--color-text-dark);
   outline: none;
@@ -423,7 +418,7 @@ h1 .title-icon {
 }
 
 .star-btn:active {
-  color: var(--color-star-dark);
+  color: var(--color-star);
 }
 
 .todo-list li:hover .star-btn {
@@ -444,22 +439,11 @@ h1 .title-icon {
 }
 
 .todo-list li.selected .star-btn:focus {
-  color: var(--color-star-dark);
+  color: var(--color-star);
   opacity: 1;
   outline: none;
 }
 
-.todo-list li.editing .star-btn {
-  opacity: 1;
-}
-
-.todo-list li.editing .star-btn:hover {
-  color: var(--color-star);
-}
-
-.todo-list li.editing .star-btn:active {
-  color: var(--color-star-dark);
-}
 
 .actions {
   text-align: center;
@@ -484,12 +468,13 @@ h1 .title-icon {
 }
 
 .kebab-icon-container {
-  display: none;
+  display: block;
 }
 
 .kebab-menu-wrapper {
-  position: relative;
-  display: inline-block;
+  position: fixed;
+  top: 10px;
+  right: 20px;
 }
 
 .kebab-icon {
@@ -505,17 +490,17 @@ h1 .title-icon {
 
 .kebab-popover {
   position: absolute;
-  top: calc(100% + 2px);
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(100% + 5px);
+  right: 0;
+  left: auto;
+  transform: none;
   background-color: var(--color-bg-white);
   border-radius: 8px;
-  box-shadow: 0 4px 12px var(--color-shadow-medium);
-  border: 1px solid var(--color-bg-white);
+  box-shadow: 0 4px 12px var(--color-shadow-light);
+  border: 1px solid var(--color-bg:-white);
   padding: 6px 0;
   min-width: 150px;
   z-index: 10;
-  margin-top: 5px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -525,8 +510,7 @@ h1 .title-icon {
   content: "";
   position: absolute;
   top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0;
   border-width: 0 8px 8px 8px;
   border-style: solid;
   border-color: transparent transparent var(--color-bg-white) transparent;
