@@ -45,6 +45,9 @@
   
   /* Hover/focus colors */
   --color-hover-light: rgba(0, 0, 0, 0.03);
+  
+  /* Layout dimensions */
+  --desktop-width: 500px;
 }
 
 .container {
@@ -136,7 +139,7 @@ h1 .title-icon {
   gap: 15px;
   margin-top: 25px;
   width: 100%;
-  max-width: 500px;
+  max-width: var(--desktop-width);
   background: var(--color-bg-white);
   padding: 20px;
   border-radius: 12px;
@@ -194,7 +197,7 @@ h1 .title-icon {
   padding: 0;
   margin: 0;
   width: 100%;
-  max-width: 500px;
+  max-width: var(--desktop-width);
 }
 
 .todo-list li {
@@ -569,7 +572,7 @@ h1 .title-icon {
 
 .completed-section {
   width: 100%;
-  max-width: 500px;
+  max-width: var(--desktop-width);
   margin-top: 10px;
   opacity: 0.8;
 }
