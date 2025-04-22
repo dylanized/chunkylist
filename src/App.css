@@ -152,15 +152,20 @@ h1 .title-icon {
   font-size: 17px;
   border: 2px solid var(--color-border-light);
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   background: var(--color-bg-light);
 }
 
 .add-todo input:hover {
-  transform: scale(1.02);
+  border-color: var(--color-border-medium);
+}
+
+.add-todo input:hover::placeholder {
+  color: var(--color-text-light);
 }
 
 .add-todo input::placeholder {
+  transition: all 0.2s ease;
   color: var(--color-text-lighter);
 }
 
@@ -181,7 +186,7 @@ h1 .title-icon {
   gap: 12px;
   font-weight: bold;
   font-size: 17px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   min-width: 120px;
   justify-content: center;
   outline: none;
@@ -189,7 +194,7 @@ h1 .title-icon {
 
 .add-todo button:hover {
   background-color: var(--color-primary-light);
-  transform: scale(1.02);
+  /*transform: scale(1.02);*/
 }
 
 .todo-list {

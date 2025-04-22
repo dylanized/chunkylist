@@ -135,7 +135,10 @@ function App(): JSX.Element {
             contentEditable
             suppressContentEditableWarning={true}
             spellCheck={false}
-            onBlur={(e) => setTitleStr(e.currentTarget.textContent || "")}
+            onBlur={(e) => {
+              const newTitle = e.currentTarget.textContent || ""
+              setTitleStr(newTitle.slice(0, 14))
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault()
